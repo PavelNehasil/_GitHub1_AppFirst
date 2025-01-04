@@ -1,0 +1,104 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/WinUICommunity/WinUICommunity/refs/heads/main/AppData.Schema.json",
+  "Groups": [
+    {
+      "UniqueId": "AppFirst",
+      "Title": "AppFirst",
+      "ImagePath": "ms-appx:///Assets/icon.png",
+      "IsSpecialSection": false,
+      "ShowItemsWithoutGroup": true,
+      "IsExpanded": false,
+      "IconGlyph": "e81e",
+      "Items":
+      [
+        {
+          "UniqueId": "AppFirst.Views.HomeLandingPage",
+          "Title": "Home",
+          "Subtitle": "...",
+          "ImagePath": "ms-appx:///Assets/icon.png",
+          "HideItem": true,
+          "IconGlyph": "e80f",
+          "IsNavigationViewItemHeader": false
+        },
+        {
+          "UniqueId": "AppFirst.Views.Pages.LoadSqlDataPage",
+          "Title": "Sample1Page",
+          "Subtitle": "Dialogs",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "e8bf"
+        },
+        {
+          "UniqueId": "AppFirst.Views.Pages.SamplePage",
+          "Title": "Sample",
+          "Subtitle": "...",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "e779",
+          "IsNavigationViewItemHeader": false
+        }
+      ]
+    },
+    {
+      "UniqueId": "AppFirstData",
+      "Title": "Databases",
+      "ImagePath": "ms-appx:///Assets/icon.png",
+      "IsSpecialSection": false,
+      "ShowItemsWithoutGroup": false,
+      "IsExpanded": true,
+      "IconGlyph": "e975",
+      "IsFooterNavigationViewItem": false,
+      "Items": [
+        {
+          "UniqueId": "AppFirst.Views.Data1Page",
+          "Title": "Data1",
+          "Subtitle": "sql",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "ec5c"
+        },
+        {
+          "UniqueId": "AppFirst.Views.Pages",
+          "Title": "Data2",
+          "Subtitle": "sql",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "ec5c",
+          "items": [
+            {
+              "UniqueId": "AppFirst.Views.Pages.LoadSqlDataPage",
+              "SectionId": "bbbbbbb",
+              "Parameter": "",
+              "Title": "Load sql data",
+              "Subtitle": "sql",
+              "ImagePath": "",
+              "IconGlyph": "ec5c",
+              "HideItem": false,
+              "HideNavigationViewItem": false
+            },
+            {
+              "UniqueId": "AppFirst.Views.Pages.SamplePage",
+              "SectionId": "aaaaaa",
+              "Parameter": "",
+              "Title": "Data2_2",
+              "Subtitle": "sql",
+              "ImagePath": "",
+              "IconGlyph": "ec5c",
+              "HideItem": false,
+              "HideNavigationViewItem": false
+            }
+          ]
+        },
+
+        {
+          "UniqueId": "AppFirst.Views.Data3Page",
+          "Title": "Data3",
+          "Subtitle": "sql",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "ec5c"
+        }
+      ]
+    }
+  ]
+}

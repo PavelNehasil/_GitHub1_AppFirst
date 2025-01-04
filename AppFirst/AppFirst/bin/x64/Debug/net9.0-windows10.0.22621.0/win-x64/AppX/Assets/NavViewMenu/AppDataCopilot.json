@@ -1,0 +1,115 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/WinUICommunity/WinUICommunity/refs/heads/main/AppData.Schema.json",
+  "Groups": [
+    {
+      "UniqueId": "AppFirst",
+      "Title": "AppFirst",
+      "ImagePath": "ms-appx:///Assets/icon.png",
+      "IsSpecialSection": false,
+      "ShowItemsWithoutGroup": true,
+      "IsExpanded": false,
+      "IconGlyph": "e81e",
+      "Items": [
+        {
+          "UniqueId": "AppFirst.Views.HomeLandingPage",
+          "Title": "Home",
+          "Subtitle": "...",
+          "ImagePath": "ms-appx:///Assets/icon.png",
+          "HideItem": true,
+          "IconGlyph": "e80f"
+        },
+        {
+          "UniqueId": "AppFirst.Views.Sample1Page",
+          "Title": "Sample1Page",
+          "Subtitle": "Dialogs",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "e8bf"
+        },
+        {
+          "UniqueId": "AppFirst.Views.Pages.SamplePage",
+          "Title": "Sample",
+          "Subtitle": "...",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "e779",
+          "IsNavigationViewItemHeader": false
+        }
+      ]
+    },
+    {
+      "UniqueId": "AppFirstData",
+      "Title": "Databases",
+      "ImagePath": "ms-appx:///Assets/icon.png",
+      "IsSpecialSection": false,
+      "ShowItemsWithoutGroup": false,
+      "IsExpanded": false,
+      "IconGlyph": "e975",
+      "Items": [
+        {
+          "UniqueId": "AppFirst.Views.Data1Page",
+          "Title": "Data1",
+          "Subtitle": "sql",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "ec5c"
+        },
+        {
+          "UniqueId": "AppFirst.Views.Data2Page",
+          "Title": "Data2",
+          "Subtitle": "sql",
+          "ImagePath": "",
+          "HideItem": false,
+          "IconGlyph": "ec5c",
+          "items": [
+            {
+              "UniqueId": "AppFirst.Views.Data2Page_1",
+              "SectionId": "aaaaaa",
+              "Title": "Data2_1",
+              "Subtitle": "sql",
+              "ImagePath": "",
+              "IconGlyph": "ec5c",
+              "HideItem": false,
+              "HideNavigationViewItem": false
+            }
+          ]
+        },
+        {
+          "UniqueId": "AppFirst.Views.Data3Page",
+          "Title": "Data3",
+          "Subtitle": "sql",
+          "ImagePath": "",
+          "HideItem": true,
+          "IconGlyph": "ec5c"
+        }
+      ]
+    },
+    {
+      "UniqueId": "SampleGroup",
+      "Title": "Sample Group",
+      "ImagePath": "ms-appx:///Assets/sample_icon.png",
+      "IsSpecialSection": false,
+      "ShowItemsWithoutGroup": true,
+      "IsExpanded": true,
+      "IconGlyph": "e700",
+      "Items": [
+        {
+          "UniqueId": "SampleGroup.Views.SamplePage1",
+          "Title": "Sample Page 1",
+          "Subtitle": "Sample Subtitle 1",
+          "ImagePath": "ms-appx:///Assets/sample_icon.png",
+          "HideItem": false,
+          "IconGlyph": "e701"
+        },
+        {
+          "UniqueId": "SampleGroup.Views.SamplePage2",
+          "Title": "Sample Page 2",
+          "Subtitle": "Sample Subtitle 2",
+          "ImagePath": "",
+          "HideItem": false,
+          "IconGlyph": "e702"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
+    <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">F:\packages\NuGet\cache\</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">F:\packages\NuGet\cache\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages;C:\Program Files (x86)\Syncfusion\Essential Studio\WPF\27.1.48\ToolboxNuGetPackages;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
+    <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.13.0</NuGetToolVersion>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <SourceRoot Include="F:\packages\NuGet\cache\" />
+    <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
+    <SourceRoot Include="C:\Program Files (x86)\Syncfusion\Essential Studio\WPF\27.1.48\ToolboxNuGetPackages\" />
+    <SourceRoot Include="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\" />
+  </ItemGroup>
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)microsoft.windows.sdk.buildtools\10.0.26100.1742\buildTransitive\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('$(NuGetPackageRoot)microsoft.windows.sdk.buildtools\10.0.26100.1742\buildTransitive\Microsoft.Windows.SDK.BuildTools.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.windowsappsdk\1.6.241114003\buildTransitive\Microsoft.WindowsAppSDK.props" Condition="Exists('$(NuGetPackageRoot)microsoft.windowsappsdk\1.6.241114003\buildTransitive\Microsoft.WindowsAppSDK.props')" />
+    <Import Project="$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props" Condition="Exists('$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props')" />
+  </ImportGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_Web_WebView2 Condition=" '$(PkgMicrosoft_Web_WebView2)' == '' ">F:\packages\NuGet\cache\microsoft.web.webview2\1.0.2651.64</PkgMicrosoft_Web_WebView2>
+    <PkgMicrosoft_WindowsAppSDK Condition=" '$(PkgMicrosoft_WindowsAppSDK)' == '' ">F:\packages\NuGet\cache\microsoft.windowsappsdk\1.6.241114003</PkgMicrosoft_WindowsAppSDK>
+    <PkgWinUIEx Condition=" '$(PkgWinUIEx)' == '' ">F:\packages\NuGet\cache\winuiex\2.5.0</PkgWinUIEx>
+    <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">F:\packages\NuGet\cache\entityframework\6.4.4</PkgEntityFramework>
+    <PkgSystem_Data_SQLite_EF6 Condition=" '$(PkgSystem_Data_SQLite_EF6)' == '' ">F:\packages\NuGet\cache\system.data.sqlite.ef6\1.0.119</PkgSystem_Data_SQLite_EF6>
+    <PkgCommunityToolkit_WinUI_UI_Controls_DataGrid Condition=" '$(PkgCommunityToolkit_WinUI_UI_Controls_DataGrid)' == '' ">F:\packages\NuGet\cache\communitytoolkit.winui.ui.controls.datagrid\7.1.2</PkgCommunityToolkit_WinUI_UI_Controls_DataGrid>
+  </PropertyGroup>
+</Project>

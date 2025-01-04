@@ -1,0 +1,16 @@
+﻿{
+  "ApplicationName": "AppFirst",
+  "DebugMode": "Default",
+  "MaxDisplayListItems": 15,
+  "SendAdminEmailConfirmations": false,
+  "Password": "jfjRIWKGOf8=",
+  "AppConnectionString": "O9Al50YmPsUbHNiyg1GIq9dXB3chBjCi9KVeL5lmM/J5Cmht7hvUppKF7H7jm9Ww05WtMyLBVRo=",
+  "AppConnectionStringLocal": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Database\\Database1.mdf;Integrated Security=True",
+  "AppConnectionStringLocalSqlite1": "Data Source=|DataDirectory|\\Database\\Database1.db",
+  "License": {
+    "Name": "pavel",
+    "Company": "negasilp.eu",
+    "LicenseKey": "M2tBRxRA/VlzK5oUoryvvluLC8hREdPNwU9z7ggJDKlFiG6mYtwxQw=="
+  },
+  "themeIndex": 0
+}

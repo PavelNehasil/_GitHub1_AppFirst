@@ -1,0 +1,1 @@
+U:\_Repozitory\C#\_GitHub1\AppFirst\AppFirst\AppFirst.csproj;x64

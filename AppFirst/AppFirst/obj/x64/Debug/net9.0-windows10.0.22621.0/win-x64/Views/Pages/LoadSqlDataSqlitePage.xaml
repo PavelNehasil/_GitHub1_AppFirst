@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Page x:ConnectionId='1'
+    x:Class="AppFirst.Views.Pages.LoadSqlDataSqlitePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:AppFirst"
+    xmlns:local1="using:AppFirst.Models"
+    xmlns:local2="using:AppFirst.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:AppFirst.ViewModels.Pages"
+    xmlns:wuc="using:WinUICommunity"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <StandardUICommand x:ConnectionId='2'
+            x:Name="EditUserCommand"
+                                                        
+            Description="Edit user" />
+        <StandardUICommand x:ConnectionId='3'
+            x:Name="DeleteUserCommand"
+                                                          
+            Description="Delete user" />
+        <StandardUICommand x:ConnectionId='4'
+            x:Name="DeleteLoginUserCommand"
+                                                               
+            Description="Delete login user" />
+        <DataTemplate x:Key="UsersListViewTemplate"                         >
+            <UserControl x:ConnectionId='13'                                                                                                            >
+                <RelativePanel
+                    Height="55"
+                    Padding="8,4,4,4"
+                    Background="Transparent">
+                    <StackPanel Background="Transparent" Orientation="Horizontal">
+                        <StackPanel
+                            Margin="5"
+                            Padding="7"
+                            Background="Transparent"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Width="100"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding Id}" />
+                            <TextBlock
+                                Width="150"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding UserName}" />
+                            <TextBlock
+                                Width="150"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding Password}" />
+                            <CheckBox
+                                Width="100"
+                                Margin="5,0,0,0"
+                                IsChecked="{Binding IsAdmin, Mode=OneWay}"
+                                IsEnabled="False"
+                                Style="{ThemeResource BaseTextBlockStyle}" />
+                            <TextBlock
+                                Width="200"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding Email}" />
+                            <TextBlock
+                                Width="100"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding FirstName}" />
+                            <TextBlock
+                                Width="100"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding LastName}" />
+                        </StackPanel>
+                        <StackPanel
+                            x:Name="HoverButtons"
+                            Background="Transparent"
+                            Orientation="Horizontal"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignVerticalCenterWithPanel="True"
+                            Visibility="Collapsed">
+                            <AppBarButton x:ConnectionId='15'
+                                Width="32"
+                                Command="{StaticResource EditUserCommand}"
+                                                              
+                                Icon="Edit"
+                                IsCompact="True"
+                                ToolTipService.ToolTip="Edit user" />
+                            <AppBarButton x:ConnectionId='16'
+                                Width="32"
+                                Command="{StaticResource DeleteUserCommand}"
+                                                              
+                                Icon="Delete"
+                                IsCompact="True"
+                                ToolTipService.ToolTip="Delete user" />
+                        </StackPanel>
+                    </StackPanel>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="HoveringStates">
+                            <VisualState x:Name="HoverButtonsHidden" />
+                            <VisualState x:Name="HoverButtonsShown">
+                                <VisualState.Setters>
+                                    <Setter Target="HoverButtons.Visibility" Value="Visible" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </RelativePanel>
+            </UserControl>
+        </DataTemplate>
+        <DataTemplate x:Key="LoginUsersListViewTemplate"                              >
+            <UserControl x:ConnectionId='6'                                                                                                            >
+                <RelativePanel
+                    Height="55"
+                    Padding="8,4,4,4"
+                    Background="Transparent">
+                    <StackPanel Background="Transparent" Orientation="Horizontal">
+                        <StackPanel
+                            Margin="5"
+                            Padding="7"
+                            Background="Transparent"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Width="100"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding IdUser}" />
+                            <TextBlock
+                                Width="100"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding IdLoginType}" />
+                            <TextBlock
+                                Width="100"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding LoginType}" />
+                            <TextBlock
+                                Width="150"
+                                Margin="5,0,0,0"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{Binding Date}" />
+                        </StackPanel>
+                        <StackPanel
+                            x:Name="HoverButtonsDetail"
+                            Background="Transparent"
+                            Orientation="Horizontal"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignVerticalCenterWithPanel="True"
+                            Visibility="Collapsed">
+
+                            <AppBarButton x:ConnectionId='8'
+                                Width="40"
+                                Height="40"
+                                Command="{StaticResource DeleteLoginUserCommand}"
+                                                                
+                                Icon="Delete"
+                                IsCompact="True"
+                                ToolTipService.ToolTip="Delete login user" />
+                        </StackPanel>
+                    </StackPanel>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="HoveringStatesDetail">
+                            <VisualState x:Name="HoverButtonsHidden" />
+                            <VisualState x:Name="HoverButtonsShown">
+                                <VisualState.Setters>
+                                    <Setter Target="HoverButtonsDetail.Visibility" Value="Visible" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </RelativePanel>
+            </UserControl>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid ColumnDefinitions="*" RowDefinitions="Auto,450,*">
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,20,0,5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Margin="10,5,5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Command="{Binding ShowSqlConnectionStringDialogCommand, Mode=OneWay}"
+                    Content="ConnectionString" />
+                <TextBox
+                    Height="NaN"
+                    Margin="5,5,0,5"
+                    VerticalAlignment="Center"
+                    AcceptsReturn="False"
+                    IsEnabled="True"
+                    Text="{Binding ConnectionString}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                Orientation="Vertical">
+                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                    <CommandBar
+                        Margin="10,0,0,0"
+                        Background="Transparent"
+                        DefaultLabelPosition="Right"
+                        FontSize="14"
+                        IsOpen="False">
+                        <AppBarButton x:ConnectionId='31'
+                            x:Name="AddButton"
+                            x:Uid="AddButton"
+                                                                             
+                            Icon="Add"
+                            Label="Add"
+                            ToolTipService.ToolTip="Add user" />
+                        <AppBarSeparator />
+                        <AppBarButton x:ConnectionId='32'
+                            x:Uid="RefreshButton"
+                                                                      
+                            Icon="Refresh"
+                            ToolTipService.ToolTip="Refresh users" />
+                        <AppBarSeparator />
+                        <AppBarButton x:ConnectionId='33'
+                                                                              
+                            Content="Edit"
+                            Icon="Edit"
+                                                                                      
+                            ToolTipService.ToolTip="Edit user" />
+                        <AppBarButton x:ConnectionId='34'
+                                                                                
+                            Content="Delete"
+                            Icon="Delete"
+                                                                                      
+                            ToolTipService.ToolTip="Delete user" />
+                        <AppBarSeparator />
+                        <AppBarButton x:ConnectionId='35'
+                                                                          
+                            Content="MoveUp"
+                            Icon="Like"
+                                                                                      
+                            ToolTipService.ToolTip="Move up selected user" />
+                        <AppBarButton x:ConnectionId='36'
+                                                                            
+                            Content="MoveDown"
+                            Icon="Dislike"
+                                                                                      
+                            ToolTipService.ToolTip="Move down selected user" />
+                        <AppBarSeparator />
+                        <CommandBar.SecondaryCommands>
+                            <AppBarButton Icon="Setting" Label="Settings">
+                                <AppBarButton.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="I" Modifiers="Control" />
+                                </AppBarButton.KeyboardAccelerators>
+                            </AppBarButton>
+                        </CommandBar.SecondaryCommands>
+                    </CommandBar>
+                    <AutoSuggestBox x:ConnectionId='30'
+                        MinWidth="320"
+                        VerticalAlignment="Center"
+                        PlaceholderText="Search"
+                        QueryIcon="Find"
+                                                      />
+                </StackPanel>
+
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+                        <ListView x:ConnectionId='29'
+                            x:Name="UsersListView"
+                            Width="1150"
+                            Height="400"
+                            Margin="10,0,0,0"
+                            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                            BorderThickness="1"
+                            CanReorderItems="True"
+                            ItemTemplate="{StaticResource UsersListViewTemplate}"
+                                                                                    
+                                                                                       
+                            SelectionMode="Single">
+                            <ListView.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Width="100"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="ID" />
+                                    <TextBlock
+                                        Width="150"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="UserName" />
+                                    <TextBlock
+                                        Width="150"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Password" />
+                                    <TextBlock
+                                        Width="100"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="IsAdmin" />
+                                    <TextBlock
+                                        Width="200"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Email" />
+                                    <TextBlock
+                                        Width="100"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="FirstName" />
+                                    <TextBlock
+                                        Width="100"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="LastName" />
+                                </StackPanel>
+                            </ListView.Header>
+                        </ListView>
+                    </ScrollViewer>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="2"
+                VerticalAlignment="Top"
+                Orientation="Vertical">
+                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                    <CommandBar
+                        Margin="10,0,0,0"
+                        Background="Transparent"
+                        DefaultLabelPosition="Right"
+                        FontSize="14"
+                        IsOpen="False">
+                        <AppBarButton x:ConnectionId='27'
+                            x:Uid="RefreshButton"
+                                                                                
+                            Icon="Refresh"
+                            ToolTipService.ToolTip="Refresh users" />
+                        <AppBarSeparator />
+                        <AppBarButton x:ConnectionId='28'
+                                                                                 
+                            Content="Delete"
+                            Icon="Delete"
+                                                                                      
+                            ToolTipService.ToolTip="Delete user" />
+                        <AppBarSeparator />
+                        <CommandBar.SecondaryCommands>
+                            <AppBarButton Icon="Setting" Label="Settings">
+                                <AppBarButton.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="I" Modifiers="Control" />
+                                </AppBarButton.KeyboardAccelerators>
+                            </AppBarButton>
+                        </CommandBar.SecondaryCommands>
+                    </CommandBar>
+                </StackPanel>
+
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+                        <ListView x:ConnectionId='24'
+                            x:Name="LoginUsersListView"
+                            Width="600"
+                            Height="400"
+                            Margin="10,0,0,0"
+                            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                            BorderThickness="1"
+                            CanReorderItems="True"
+                            ItemTemplate="{StaticResource LoginUsersListViewTemplate}"
+                                                                                         
+                                                                                            
+                            SelectionMode="Single">
+                            <ListView.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:ConnectionId='25'
+                                        x:Uid="CreateLoginEvent"
+                                                                                            
+                                                                   
+                                        Text="Login event">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE77B;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem x:ConnectionId='26'
+                                        x:Uid="CreatePasswordEvent"
+                                                                                               
+                                                                   
+                                        Text="Password event">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8F8;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </ListView.ContextFlyout>
+                            <ListView.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Width="100"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="IdUser" />
+                                    <TextBlock
+                                        Width="100"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="IdType" />
+                                    <TextBlock
+                                        Width="100"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Type" />
+                                    <TextBlock
+                                        Width="150"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Date" />
+                                </StackPanel>
+                            </ListView.Header>
+                            <ListView.Footer>
+                                <MenuBar Background="{ThemeResource AppBarBackgroundThemeBrush}">
+                                    <MenuBarItem Title="File">
+                                        <MenuFlyoutItem Text="New" />
+                                        <MenuFlyoutItem Text="Open..." />
+                                        <MenuFlyoutItem Text="Save" />
+                                        <MenuFlyoutItem Text="Exit" />
+                                    </MenuBarItem>
+
+                                    <MenuBarItem Title="Edit">
+                                        <MenuFlyoutItem Text="Undo" />
+                                        <MenuFlyoutItem Text="Cut" />
+                                        <MenuFlyoutItem Text="Copy" />
+                                        <MenuFlyoutItem Text="Paste" />
+                                    </MenuBarItem>
+
+                                    <MenuBarItem Title="Help">
+                                        <MenuFlyoutItem Text="About" />
+                                    </MenuBarItem>
+                                </MenuBar>
+                            </ListView.Footer>
+                        </ListView>
+                    </ScrollViewer>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel x:ConnectionId='20'
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                                                                      >
+                <ProgressRing x:ConnectionId='23'                                                      />
+                <TextBlock x:Uid="Sql_Loading" />
+            </StackPanel>
+
+            <StackPanel x:ConnectionId='21'
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                                                                        >
+                <TextBlock
+                    x:Uid="Sql_FailedMessage"
+                    HorizontalAlignment="Center"
+                    TextWrapping="WrapWholeWords" />
+                <HyperlinkButton x:ConnectionId='22'
+                    x:Uid="Sql_Reload"
+                    HorizontalAlignment="Center"
+                                                               />
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Page>
+
+
