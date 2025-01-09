@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using AppFirst.Classes;
 using AppFirst.Models;
 
 namespace AppFirst.Services
@@ -34,6 +35,8 @@ namespace AppFirst.Services
                             Description = reader.IsDBNull(2) ? null : reader.GetString(2),
                             Image = reader.IsDBNull(3) ? null : (byte[])reader["Image"]
                         };
+                        loginImage.ImageSource = ImageBlobConverter.ByteToBitmapAsync(loginImage.Image).Result;
+
                         loginImages.Add(loginImage);
                     }
                 }
@@ -59,15 +62,15 @@ namespace AppFirst.Services
             }
         }
 
-        public async Task InsertLoginImageAsync(int idLoginImage, string imageName, string description, byte[] image)
+        public async Task InsertLoginImageAsync(string imageName, string description, byte[] image)
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var command = new SQLiteCommand("""
-                    INSERT INTO LoginImages (Id, ImageName, Description, Image) VALUES (@id, @imageName, @description, @image)
+                    INSERT INTO LoginImages (ImageName, Description, Image) VALUES (@imageName, @description, @image)
                     """, connection);
-                command.Parameters.AddWithValue("@id", idLoginImage);
+
                 command.Parameters.AddWithValue("@imageName", imageName);
                 command.Parameters.AddWithValue("@description", description);
                 command.Parameters.AddWithValue("@image", image);

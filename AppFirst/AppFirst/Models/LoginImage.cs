@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace AppFirst.Models
 {
@@ -12,6 +13,7 @@ namespace AppFirst.Models
         private string imageName;
         private string description;
         private byte[] image;
+        private BitmapImage imageSource;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -40,6 +42,12 @@ namespace AppFirst.Models
         {
             get => image;
             set => SetProperty(ref image, value);
+        }
+
+        public BitmapImage ImageSource
+        {
+            get => imageSource;
+            set => SetProperty(ref imageSource, value);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

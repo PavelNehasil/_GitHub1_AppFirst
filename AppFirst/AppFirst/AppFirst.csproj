@@ -32,6 +32,7 @@
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <SqlQueryToolsConnectionString />
     <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <None Update="T4Templates\NavigationPageMappings.tt">
@@ -86,6 +87,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Views\Samples\**" />
+    <EmbeddedResource Remove="Views\Samples\**" />
+    <None Remove="Views\Samples\**" />
+    <Page Remove="Views\Samples\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="Assets\AppDataZaloha.json" />
     <Content Remove="Assets\arrow-down-left-box-outline.png" />
     <Content Remove="Assets\browsers-outline.svg" />
@@ -107,9 +114,6 @@
     <None Remove="Views\SplashScreen.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Page Remove="Views\Samples\ContentDialogContent.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Database\Database1.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -120,9 +124,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\SplashScreen.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Samples\" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -141,7 +142,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.2" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.66.2" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.67.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
@@ -172,4 +173,7 @@
     <!-- Check if TextTransform.exe exists before running -->
     <Exec Command="if exist &quot;$(DevEnvDir)TextTransform.exe&quot; &quot;$(DevEnvDir)TextTransform.exe&quot; &quot;%(T4Template.FullPath)&quot;" Condition="Exists('$(DevEnvDir)TextTransform.exe')" />
   </Target>
+  <ItemGroup>
+    <PRIResource Remove="Views\Samples\**" />
+  </ItemGroup>
 </Project>

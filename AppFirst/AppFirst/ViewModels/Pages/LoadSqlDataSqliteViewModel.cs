@@ -5,6 +5,8 @@ using AppFirst.Services;
 using AppFirst.Views.Dialogs;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.Pickers;
 
 namespace AppFirst.ViewModels.Pages;
 
@@ -13,6 +15,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     private readonly LoadSqlDataSqliteService _loadSqlDataSqliteService;
     private readonly LoadSqlDataSqliteService_LoginUser _loadSqlDataSqliteService_LoginUser;
     private readonly LoadSqlDataSqliteService_LoginType _loadSqlDataSqliteService_LoginType;
+    private readonly LoadSqlDataSqliteService_LoginImage _loadSqlDataSqliteService_LoginImage;
 
     public string GetLoginType(int IdLoginType)
     {
@@ -41,6 +44,8 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     [ObservableProperty]
     private LoginUser _selectedLoginUser = null;
 
+    [ObservableProperty]
+    private LoginImage _selectedLoginImage = null;
 
     [ObservableProperty]
     private bool _hasFailures = false;
@@ -61,6 +66,9 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     private ObservableCollection<LoginType> _tableLoginTypes = new ObservableCollection<LoginType>();
 
     [ObservableProperty]
+    private ObservableCollection<LoginImage> _tableLoginImages = new ObservableCollection<LoginImage>();
+
+    [ObservableProperty]
     private string _connectionString = ((App)Application.Current).configurationJson.AppConnectionStringLocalSqlite1;
 
     public LoadSqlDataSqliteViewModel()
@@ -68,8 +76,10 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         _loadSqlDataSqliteService = new LoadSqlDataSqliteService(ConnectionString);
         _loadSqlDataSqliteService_LoginUser = new LoadSqlDataSqliteService_LoginUser(ConnectionString);
         _loadSqlDataSqliteService_LoginType = new LoadSqlDataSqliteService_LoginType(ConnectionString);
+        _loadSqlDataSqliteService_LoginImage = new LoadSqlDataSqliteService_LoginImage(ConnectionString);
 
         OnReloadLoginTypes();
+        OnReloadLoginImages();
         //_searchCommand = new WinUICommunity.RelayCommand(OnSearchCommand);
     }
 
@@ -78,7 +88,8 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
     private readonly ICommand _searchCommand;
     public ICommand SearchCommand => _searchCommand;
-
+    public ICommand AddLoginImageCommand => new CommunityToolkit.Mvvm.Input.RelayCommand(AddLoginImageCommand_Executed);
+    public ICommand DeleteLoginImageCommand => new CommunityToolkit.Mvvm.Input.RelayCommand(DeleteLoginImageCommand_Executed);
     public ICommand DeleteUserCommand => new CommunityToolkit.Mvvm.Input.RelayCommand<int>(DeleteUserCommand_Executed);
     public ICommand EditUserCommand => new CommunityToolkit.Mvvm.Input.RelayCommand<int>(EditUserCommand_Executed);
     public ICommand DeleteLoginUserCommand => new CommunityToolkit.Mvvm.Input.RelayCommand<DateTime>(DeleteLoginUserCommand_Executed);
@@ -197,6 +208,32 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             IsLoading = false;
             HasFailures = true;
             TableLoginTypes.Clear();
+        }
+    }
+
+    [RelayCommand]
+    public async Task OnReloadLoginImages()
+    {
+        IsLoading = true;
+        HasFailures = false;
+        TableLoginImages.Clear();
+
+        try
+        {
+            await _loadSqlDataSqliteService_LoginImage.GetLoginImages(TableLoginImages);
+
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+            await dispatcherQueue.EnqueueAsync(() =>
+            {
+                IsLoading = false;
+            });
+        }
+        catch (Exception ex)
+        {
+            IsLoading = false;
+            HasFailures = true;
+            TableLoginImages.Clear();
         }
     }
 
@@ -523,6 +560,47 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             IsLoading = false;
             HasFailures = true;
         }
+    }
+
+    private async void AddLoginImageCommand_Executed()
+    {
+        var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+
+        var window = App.MainWindow;
+
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+
+        WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+        openPicker.ViewMode = PickerViewMode.Thumbnail;
+        openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+        openPicker.FileTypeFilter.Add(".jpg");
+        openPicker.FileTypeFilter.Add(".jpeg");
+        openPicker.FileTypeFilter.Add(".png");
+        openPicker.FileTypeFilter.Add(".bmp");
+
+        var file = await openPicker.PickSingleFileAsync();
+        if (file != null)
+        {
+            //var bitmapImage = ImageBlobConverter.LoadBitmapImage(file.Name);
+            //BitmapImage bitmapImage = new BitmapImage(new Uri(file.Path));
+            var bitmapImage = new BitmapImage(new Uri(file.Path));
+
+            TableLoginImages.Add(new LoginImage { ImageName = file.Name, Description = string.Empty, ImageSource = bitmapImage });
+
+            //var image2 = new ImageConverter().ConvertTo(bitmapImage, typeof(Byte[]));
+            //file.Name;
+            //_loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(file.Name, string.Empty, );
+        }
+        else
+        {
+
+        }
+
+    }
+    private void DeleteLoginImageCommand_Executed()
+    {
+
     }
 
 }

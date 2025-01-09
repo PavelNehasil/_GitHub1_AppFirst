@@ -452,29 +452,79 @@
                                         Text="Date" />
                                 </StackPanel>
                             </ListView.Header>
-                            <ListView.Footer>
-                                <MenuBar Background="{ThemeResource AppBarBackgroundThemeBrush}">
-                                    <MenuBarItem Title="File">
-                                        <MenuFlyoutItem Text="New" />
-                                        <MenuFlyoutItem Text="Open..." />
-                                        <MenuFlyoutItem Text="Save" />
-                                        <MenuFlyoutItem Text="Exit" />
-                                    </MenuBarItem>
-
-                                    <MenuBarItem Title="Edit">
-                                        <MenuFlyoutItem Text="Undo" />
-                                        <MenuFlyoutItem Text="Cut" />
-                                        <MenuFlyoutItem Text="Copy" />
-                                        <MenuFlyoutItem Text="Paste" />
-                                    </MenuBarItem>
-
-                                    <MenuBarItem Title="Help">
-                                        <MenuFlyoutItem Text="About" />
-                                    </MenuBarItem>
-                                </MenuBar>
-                            </ListView.Footer>
                         </ListView>
                     </ScrollViewer>
+                    <ListView
+                        x:Name="Control4"
+                        Height="400"
+                        MinWidth="550"
+                        AllowDrop="True"
+                        BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CanDrag="True"
+                        CanDragItems="True"
+                        CanReorderItems="True"
+                        ItemsSource="{x:Bind ViewModel.TableLoginImages, Mode=TwoWay}"
+                            SelectedItem="{x:Bind ViewModel.SelectedLoginImage, Mode=TwoWay}"
+                            SelectionMode="Single">
+                        <ListView.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    x:Uid="AddLoginImage"
+                                    Command="{x:Bind ViewModel.AddLoginImageCommand}"
+                                    CommandParameter="{x:Bind}"
+                                    Text="Add Image from file">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xe7aa;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    x:Uid="DeleteLoginImage"
+                                    Command="{x:Bind ViewModel.DeleteLoginImageCommand}"
+                                    CommandParameter="{x:Bind}"
+                                    Text="Delete Image">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xe711;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </ListView.ContextFlyout>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local1:LoginImage">
+                                <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind ImageName}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" MinWidth="150" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        MaxHeight="100"
+                                        Source="{x:Bind ImageSource}"
+                                        Stretch="Fill" />
+
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                        <TextBlock
+                                            Margin="0,0,0,6"
+                                            HorizontalAlignment="Left"
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            LineHeight="20"
+                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                            Text="{x:Bind ImageName}" />
+                                        <TextBlock
+                                            Width="350"
+                                            MaxHeight="60"
+                                            Margin="0,0,0,10"
+                                            FontFamily="Segoe UI"
+                                            FontWeight="Normal"
+                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                            Text="{x:Bind Description}"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackPanel>
             </StackPanel>
 
