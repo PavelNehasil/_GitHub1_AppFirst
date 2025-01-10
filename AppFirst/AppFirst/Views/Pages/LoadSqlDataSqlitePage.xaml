@@ -27,6 +27,10 @@
             x:Name="DeleteLoginUserCommand"
             Command="{x:Bind ViewModel.DeleteLoginUserCommand}"
             Description="Delete login user" />
+        <StandardUICommand
+            x:Name="DeleteLoginImageCommand"
+            Command="{x:Bind ViewModel.DeleteLoginImageCommand}"
+            Description="Delete login image" />
         <DataTemplate x:Key="UsersListViewTemplate" x:DataType="local1:User">
             <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
                 <RelativePanel
@@ -455,7 +459,7 @@
                         </ListView>
                     </ScrollViewer>
                     <ListView
-                        x:Name="Control4"
+                        x:Name="ListViewLoginImage"
                         Height="400"
                         MinWidth="550"
                         AllowDrop="True"
@@ -465,30 +469,10 @@
                         CanDragItems="True"
                         CanReorderItems="True"
                         ItemsSource="{x:Bind ViewModel.TableLoginImages, Mode=TwoWay}"
-                            SelectedItem="{x:Bind ViewModel.SelectedLoginImage, Mode=TwoWay}"
-                            SelectionMode="Single">
-                        <ListView.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    x:Uid="AddLoginImage"
-                                    Command="{x:Bind ViewModel.AddLoginImageCommand}"
-                                    CommandParameter="{x:Bind}"
-                                    Text="Add Image from file">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xe7aa;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
-                                    x:Uid="DeleteLoginImage"
-                                    Command="{x:Bind ViewModel.DeleteLoginImageCommand}"
-                                    CommandParameter="{x:Bind}"
-                                    Text="Delete Image">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xe711;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </ListView.ContextFlyout>
+                        SelectedItem="{x:Bind ViewModel.SelectedLoginImage, Mode=TwoWay}"
+                        SelectionMode="Single"
+                        RightTapped="ListViewLoginImage_RightTapped"
+                        Holding="ListViewLoginImage_Holding">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local1:LoginImage">
                                 <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind ImageName}">
@@ -516,14 +500,39 @@
                                             Margin="0,0,0,10"
                                             FontFamily="Segoe UI"
                                             FontWeight="Normal"
+                                            FontSize="13"
                                             Style="{ThemeResource BodyTextBlockStyle}"
                                             Text="{x:Bind Description}"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
                                 </Grid>
+
                             </DataTemplate>
                         </ListView.ItemTemplate>
+                        <ListView.ContextFlyout>
+                            <MenuFlyout x:Name="ContextMenuLoginImage">
+                                <MenuFlyoutItem
+                                    x:Uid="AddLoginImage"
+                                    Command="{x:Bind ViewModel.AddLoginImageCommand}"
+                                    CommandParameter="{x:Bind}"
+                                    Text="Add Image from file">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xe7aa;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    x:Uid="DeleteLoginImage"
+                                    DataContext="{Binding ElementName=ListViewLoginImage, Path=SelectedItem}"
+                                    Click="MenuFlyoutItemLoginImage_Clicked"
+                                    Tag="delete"
+                                    Text="Delete Image">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xe711;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </ListView.ContextFlyout>
                     </ListView>
                 </StackPanel>
             </StackPanel>

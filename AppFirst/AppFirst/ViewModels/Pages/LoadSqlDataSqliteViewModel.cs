@@ -92,7 +92,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     private readonly ICommand _searchCommand;
     public ICommand SearchCommand => _searchCommand;
     public ICommand AddLoginImageCommand => new CommunityToolkit.Mvvm.Input.RelayCommand(AddLoginImageCommand_Executed);
-    public ICommand DeleteLoginImageCommand => new CommunityToolkit.Mvvm.Input.RelayCommand(DeleteLoginImageCommand_Executed);
+    public ICommand DeleteLoginImageCommand => new CommunityToolkit.Mvvm.Input.RelayCommand<int>(DeleteLoginImageCommand_Executed);
     public ICommand DeleteUserCommand => new CommunityToolkit.Mvvm.Input.RelayCommand<int>(DeleteUserCommand_Executed);
     public ICommand EditUserCommand => new CommunityToolkit.Mvvm.Input.RelayCommand<int>(EditUserCommand_Executed);
     public ICommand DeleteLoginUserCommand => new CommunityToolkit.Mvvm.Input.RelayCommand<DateTime>(DeleteLoginUserCommand_Executed);
@@ -461,6 +461,54 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
     }
 
+
+    [RelayCommand]
+    public async void DeleteLoginImageDialog()
+    {
+        if (SelectedLoginImage is null)
+        {
+            return;
+        }
+
+        var dialog = new ContentDialog();
+        dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
+        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        dialog.Title = "Delete login image?";
+        dialog.Content = $"Do you want delete image Id({(SelectedLoginImage.Id)}) Name({SelectedLoginImage.ImageName}) from database?";
+        dialog.PrimaryButtonText = "Delete";
+        dialog.CloseButtonText = "Cancel";
+        ContentDialogResult result = await dialog.ShowAsync();
+
+        if (result == ContentDialogResult.Primary)
+        {
+            try
+            {
+                int index =  TableLoginImages.IndexOf(SelectedLoginImage);
+                await _loadSqlDataSqliteService_LoginImage.DeleteLoginImageAsync(SelectedLoginImage.Id);
+
+                DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+                await dispatcherQueue.EnqueueAsync(() =>
+                {
+                    if (index > 0) --index;
+                    IsLoading = false;
+                    OnReloadLoginImages();
+                    if (TableLoginImages.Count > 0)
+                    {
+                        SelectedLoginImage = TableLoginImages[index];
+                    }
+                });
+
+            }
+            catch (Exception ex)
+            {
+                IsLoading = false;
+                HasFailures = true;
+            }
+        }
+
+    }
+
     [RelayCommand]
     public void OnMoveUpUser()
     {
@@ -596,7 +644,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             byte[] buffer = new byte[streamContent.Size];
             await streamContent.ReadAsync(buffer.AsBuffer(), (uint)streamContent.Size, InputStreamOptions.None);
 
-            await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(file.Name, string.Empty, buffer);
+            await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(file.Name, file.Path, buffer);
             await OnReloadLoginImages();
         }
         else
@@ -605,9 +653,11 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         }
 
     }
-    private void DeleteLoginImageCommand_Executed()
+    public void DeleteLoginImageCommand_Executed(int id)
     {
-
+        if (id == 0) return;
+        SelectedLoginImage = TableLoginImages.FirstOrDefault(x => x.Id == id);
+        DeleteLoginImageDialog();
     }
 
 }

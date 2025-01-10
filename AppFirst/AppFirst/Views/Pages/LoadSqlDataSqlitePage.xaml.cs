@@ -1,4 +1,5 @@
-﻿using AppFirst.ViewModels.Pages;
+﻿using AppFirst.Models;
+using AppFirst.ViewModels.Pages;
 using Microsoft.UI.Xaml.Input;
 
 namespace AppFirst.Views.Pages;
@@ -54,6 +55,37 @@ public sealed partial class LoadSqlDataSqlitePage : Page
     }
 
 
+    private void MenuFlyoutItemLoginImage_Clicked(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem menuFlyoutItem)
+        {
+            //if (menuFlyoutItem.DataContext is LoginImage loginImage)
+            if (ViewModel.SelectedLoginImage != null)
+            {
+                ViewModel.DeleteLoginImageCommand_Executed(ViewModel.SelectedLoginImage.Id);
+            }
+        }
+    }
+
+    private void ListViewLoginImage_RightTapped(object sender, RightTappedRoutedEventArgs e)
+    {
+        var view = (ListView)sender;
+        ViewModel.SelectedLoginImage = ((FrameworkElement)e.OriginalSource).DataContext as LoginImage;
+
+        var viewPoint = e.GetPosition(view);
+
+        ContextMenuLoginImage.ShowAt(view, viewPoint);
+    }
+
+    private void ListViewLoginImage_Holding(object sender, HoldingRoutedEventArgs e)
+    {
+        var view = (ListView)sender;
+        ViewModel.SelectedLoginImage = ((FrameworkElement)e.OriginalSource).DataContext as LoginImage;
+
+        var viewPoint = e.GetPosition(view);
+
+        ContextMenuLoginImage.ShowAt(view, viewPoint);
+    }
 }
 
 
