@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using AppFirst.Models;
 using AppFirst.Services;
@@ -6,7 +7,9 @@ using AppFirst.Views.Dialogs;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 
 namespace AppFirst.ViewModels.Pages;
 
@@ -582,15 +585,19 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         var file = await openPicker.PickSingleFileAsync();
         if (file != null)
         {
-            //var bitmapImage = ImageBlobConverter.LoadBitmapImage(file.Name);
-            //BitmapImage bitmapImage = new BitmapImage(new Uri(file.Path));
-            var bitmapImage = new BitmapImage(new Uri(file.Path));
+            var fileUri = new Uri(file.Path);
 
-            TableLoginImages.Add(new LoginImage { ImageName = file.Name, Description = string.Empty, ImageSource = bitmapImage });
+            var bitmapImage = new BitmapImage(fileUri);
 
-            //var image2 = new ImageConverter().ConvertTo(bitmapImage, typeof(Byte[]));
-            //file.Name;
-            //_loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(file.Name, string.Empty, );
+            StorageFile storageFile = await StorageFile.GetFileFromPathAsync(file.Path);
+
+            RandomAccessStreamReference stream = RandomAccessStreamReference.CreateFromFile(storageFile);
+            var streamContent = await stream.OpenReadAsync();
+            byte[] buffer = new byte[streamContent.Size];
+            await streamContent.ReadAsync(buffer.AsBuffer(), (uint)streamContent.Size, InputStreamOptions.None);
+
+            await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(file.Name, string.Empty, buffer);
+            await OnReloadLoginImages();
         }
         else
         {
