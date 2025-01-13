@@ -1,24 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ex:WindowEx
     x:Class="AppFirst.Views.Dialogs.ProgressDialogEx"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:WinUIEx"
     xmlns:local="using:AppFirst.Views.Dialogs"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="400" Height="300"
-    MinWidth="300" MinHeight="200"
-    MaxWidth="500" MaxHeight="400"
-    PersistenceId="LogWindow"
     Title="Progress dialog"
-    mc:Ignorable="d"
-    IsResizable="False"
+    Width="400"
+    Height="300"
+    MinWidth="300"
+    MinHeight="200"
+    MaxWidth="500"
+    MaxHeight="400"
     IsAlwaysOnTop="True"
-    IsTitleBarVisible="False">
+    IsResizable="False"
+    IsTitleBarVisible="False"
+    PersistenceId="LogWindow"
+    mc:Ignorable="d">
 
     <Window.SystemBackdrop>
-        <MicaBackdrop/>
+        <MicaBackdrop />
     </Window.SystemBackdrop>
 
     <Grid>
@@ -26,10 +29,11 @@
             Margin="10,10,10,10"
             ColumnDefinitions="*"
             RowDefinitions="20,*,70">
-            <StackPanel
-                Grid.Row="1"
-                Orientation="Vertical">
-                <TextBlock x:Name="InputLabel" FontSize="18" Text="Progress:"/>
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <TextBlock
+                    x:Name="InputLabel"
+                    FontSize="18"
+                    Text="Progress:" />
 
                 <ProgressBar
                     Name="pbStatus"
@@ -37,7 +41,7 @@
                     Height="40"
                     Margin="10"
                     HorizontalAlignment="Center"
-                    IsIndeterminate="true"/>
+                    IsIndeterminate="true" />
             </StackPanel>
 
             <StackPanel
@@ -54,8 +58,8 @@
                     IsEnabled="true"
                     ToolTipService.ToolTip="Cancel">
                     <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="Accept"/>
-                        <TextBlock Text="Cancel" Margin="5,0,0,0"/>
+                        <FontIcon Glyph="&#xE8BB;" />
+                        <TextBlock Margin="5,0,0,0" Text="Close" />
                     </StackPanel>
 
                 </Button>

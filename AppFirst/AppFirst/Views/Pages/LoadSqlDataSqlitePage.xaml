@@ -246,15 +246,21 @@
                         <AppBarButton
                             Command="{x:Bind ViewModel.MoveUpUserCommand}"
                             Content="MoveUp"
-                            Icon="Like"
                             IsEnabled="{x:Bind ViewModel.IsUserSelected, Mode=OneWay}"
-                            ToolTipService.ToolTip="Move up selected user" />
+                            ToolTipService.ToolTip="Move up selected user">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE70E;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
                         <AppBarButton
                             Command="{x:Bind ViewModel.MoveDownUserCommand}"
                             Content="MoveDown"
-                            Icon="Dislike"
                             IsEnabled="{x:Bind ViewModel.IsUserSelected, Mode=OneWay}"
-                            ToolTipService.ToolTip="Move down selected user" />
+                            ToolTipService.ToolTip="Move down selected user">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE70D;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
                         <AppBarSeparator />
                         <CommandBar.SecondaryCommands>
                             <AppBarButton Icon="Setting" Label="Settings">
@@ -480,10 +486,9 @@
                                         <ColumnDefinition Width="Auto" MinWidth="150" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Image
+                                    <PersonPicture
                                         MaxHeight="100"
-                                        Source="{x:Bind ImageSource}"
-                                        Stretch="Fill" />
+                                        ProfilePicture="{x:Bind ImageSource}"/>
 
                                     <StackPanel Grid.Column="1" Margin="12,0,0,0">
                                         <TextBlock
@@ -529,6 +534,17 @@
                                     Text="Delete Image">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe711;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem
+                                    x:Uid="ViewLoginImage"
+                                    DataContext="{Binding ElementName=ListViewLoginImage, Path=SelectedItem}"
+                                    Click="MenuFlyoutItemLoginImage_Clicked"
+                                    Tag="view"
+                                    Text="View Image">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8BA;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>

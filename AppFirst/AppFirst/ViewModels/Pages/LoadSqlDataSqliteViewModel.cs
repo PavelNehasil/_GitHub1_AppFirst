@@ -10,11 +10,14 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using WinUIEx;
 
 namespace AppFirst.ViewModels.Pages;
 
 public partial class LoadSqlDataSqliteViewModel : ObservableObject
 {
+    ImageDialogEx imageDialogEx = null;
+
     private readonly LoadSqlDataSqliteService _loadSqlDataSqliteService;
     private readonly LoadSqlDataSqliteService_LoginUser _loadSqlDataSqliteService_LoginUser;
     private readonly LoadSqlDataSqliteService_LoginType _loadSqlDataSqliteService_LoginType;
@@ -507,6 +510,35 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             }
         }
 
+    }
+
+    [RelayCommand]
+    public async void ViewLoginImageDialog()
+    {
+        if (SelectedLoginImage is null)
+        {
+            return;
+        }
+
+        //var dialog = new ImageDialog();
+        //dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
+        //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        //dialog.Title = SelectedLoginImage.ImageName;
+        //dialog.CloseButtonText = "Close";
+
+        //dialog.SetImage(SelectedLoginImage.ImageName, SelectedLoginImage.ImageSource, SelectedLoginImage.ImageSource.PixelWidth, SelectedLoginImage.ImageSource.PixelHeight);
+
+        //ContentDialogResult result = await dialog.ShowAsync();
+
+        if (imageDialogEx is null || imageDialogEx.AppWindow is null)
+        {
+            imageDialogEx = new ImageDialogEx();
+            imageDialogEx.Closed += (s, e) => this.imageDialogEx = null;
+        }
+        imageDialogEx.SetImage(SelectedLoginImage.ImageName, SelectedLoginImage.ImageSource, SelectedLoginImage.ImageSource.PixelWidth, SelectedLoginImage.ImageSource.PixelHeight);
+
+        imageDialogEx.Activate();
+        imageDialogEx.CenterOnScreen();
     }
 
     [RelayCommand]

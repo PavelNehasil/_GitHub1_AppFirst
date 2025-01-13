@@ -59,10 +59,26 @@ public sealed partial class LoadSqlDataSqlitePage : Page
     {
         if (sender is MenuFlyoutItem menuFlyoutItem)
         {
-            //if (menuFlyoutItem.DataContext is LoginImage loginImage)
-            if (ViewModel.SelectedLoginImage != null)
+            var tag = (sender as MenuFlyoutItem)!.Tag;
+            switch (tag)
             {
-                ViewModel.DeleteLoginImageCommand_Executed(ViewModel.SelectedLoginImage.Id);
+                case "delete":
+                    {
+                        if (ViewModel.SelectedLoginImage == null)
+                            break;
+
+                        ViewModel.DeleteLoginImageCommand_Executed(ViewModel.SelectedLoginImage.Id);
+                        break;
+                    }
+                case "view":
+                    {
+                        if (ViewModel.SelectedLoginImage == null)
+                            break;
+
+                        ViewModel.ViewLoginImageDialog();
+                        break;
+                    }
+
             }
         }
     }

@@ -48,6 +48,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BreadcrumbPageMappings.cs</LastGenOutput>
     </None>
+    <Page Update="Views\Dialogs\ImageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\ImageDialogEx.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\LoadSqlDataSqlitePage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -106,6 +112,7 @@
     <None Remove="Images\SplashScreen.jpg" />
     <None Remove="Views\Data1Page.xaml" />
     <None Remove="Views\Dialogs\ContentDialogExample.xaml" />
+    <None Remove="Views\Dialogs\ImageDialog.xaml" />
     <None Remove="Views\Dialogs\LoginDialog.xaml" />
     <None Remove="Views\Dialogs\ProgressDialogEx.xaml" />
     <None Remove="Views\Dialogs\SqlConnectionStringDialog.xaml" />
