@@ -9,8 +9,8 @@
     xmlns:local="using:AppFirst"
     xmlns:local1="using:AppFirst.Models"
     xmlns:local2="using:AppFirst.Views.Pages"
-    xmlns:usercontrols="using:AppFirst.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:usercontrols="using:AppFirst.Controls"
     xmlns:vm="using:AppFirst.ViewModels.Pages"
     xmlns:wuc="using:WinUICommunity"
     mc:Ignorable="d">
@@ -32,7 +32,7 @@
             x:Name="DeleteLoginImageCommand"
             Command="{x:Bind ViewModel.DeleteLoginImageCommand}"
             Description="Delete login image" />
-        
+
         <DataTemplate x:Key="UsersListViewTemplate" x:DataType="local1:User">
             <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
                 <RelativePanel
@@ -215,7 +215,7 @@
                     <Button
                         x:Name="TestButton3"
                         Click="TestButton3Click"
-                        Content="TeachingTip"/>
+                        Content="TeachingTip" />
                     <usercontrols:AutoCloseTeachingTip
                         x:Name="ToggleThemeTeachingTip3"
                         Title="{x:Bind ImageName}"
@@ -529,8 +529,8 @@
                         ItemsSource="{x:Bind ViewModel.TableLoginImages, Mode=TwoWay}"
                         RightTapped="ListViewLoginImage_RightTapped"
                         SelectedItem="{x:Bind ViewModel.SelectedLoginImage, Mode=TwoWay}"
-                        SelectionMode="Single">
-                        
+                        SelectionMode="Single"
+                        DoubleTapped="ListViewLoginImage_DoubleTapped">
                         <ListView.ContextFlyout>
                             <MenuFlyout x:Name="ContextMenuLoginImage">
                                 <MenuFlyoutItem

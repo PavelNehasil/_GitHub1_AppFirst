@@ -172,6 +172,11 @@ public sealed partial class LoadSqlDataSqlitePage : Page
 
         return null;
     }
+
+    private void ListViewLoginImage_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+    {
+        ViewModel.ViewLoginImageDialog();
+    }
 }
 
 

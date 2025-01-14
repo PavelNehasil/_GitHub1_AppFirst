@@ -32,7 +32,8 @@
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <SqlQueryToolsConnectionString />
     <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <ItemGroup>
     <None Update="T4Templates\NavigationPageMappings.tt">
