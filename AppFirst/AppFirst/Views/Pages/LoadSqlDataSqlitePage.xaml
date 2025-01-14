@@ -9,6 +9,7 @@
     xmlns:local="using:AppFirst"
     xmlns:local1="using:AppFirst.Models"
     xmlns:local2="using:AppFirst.Views.Pages"
+    xmlns:usercontrols="using:AppFirst.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:AppFirst.ViewModels.Pages"
     xmlns:wuc="using:WinUICommunity"
@@ -215,16 +216,16 @@
                         x:Name="TestButton3"
                         Click="TestButton3Click"
                         Content="TeachingTip"/>
-                    <TeachingTip
+                    <usercontrols:AutoCloseTeachingTip
                         x:Name="ToggleThemeTeachingTip3"
                         Title="{x:Bind ImageName}"
                         PreferredPlacement="Center"
                         Subtitle="..."
                         Target="{Binding ElementName=TestButton3}">
-                        <TeachingTip.HeroContent>
+                        <usercontrols:AutoCloseTeachingTip.HeroContent>
                             <Image AutomationProperties.Name="Sunset" Source="{x:Bind ImageSource}" />
-                        </TeachingTip.HeroContent>
-                    </TeachingTip>
+                        </usercontrols:AutoCloseTeachingTip.HeroContent>
+                    </usercontrols:AutoCloseTeachingTip>
                 </StackPanel>
             </Grid>
 
