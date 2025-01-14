@@ -8,28 +8,32 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Image dialog"
     Width="1000"
-    Height="600"
+    Height="800"
     CloseButtonText="Close"
     mc:Ignorable="d">
 
-    <StackPanel Width="1000" Height="800">
-        <ScrollView
-            Width="400"
-            Height="266"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            ContentOrientation="None"
+    <StackPanel
+        x:Name="ImageStackPanel"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+        <ScrollViewer
+            Width="960"
+            Height="600"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             HorizontalScrollBarVisibility="Auto"
-            HorizontalScrollMode="Auto"
+            HorizontalScrollMode="Enabled"
+            IsTabStop="True"
+            IsVerticalScrollChainingEnabled="True"
             VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Auto">
+            VerticalScrollMode="Enabled"
+            ZoomMode="Enabled">
             <Image
                 x:Name="ImageImage"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Stretch="None" />
-        </ScrollView>
-
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Stretch="Uniform" />
+        </ScrollViewer>
     </StackPanel>
     <!--  Content body  -->
 

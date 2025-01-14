@@ -542,6 +542,25 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     }
 
     [RelayCommand]
+    public async void ViewLoginImageDialog2()
+    {
+        if (SelectedLoginImage is null)
+        {
+            return;
+        }
+
+        var dialog = new ImageDialog();
+        dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
+        //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        dialog.Title = SelectedLoginImage.ImageName;
+        dialog.CloseButtonText = "Close";
+
+        dialog.SetImage(SelectedLoginImage.ImageName, SelectedLoginImage.ImageSource, SelectedLoginImage.ImageSource.PixelWidth, SelectedLoginImage.ImageSource.PixelHeight);
+
+        ContentDialogResult result = await dialog.ShowAsync();
+    }
+
+    [RelayCommand]
     public void OnMoveUpUser()
     {
         if ((SelectedUser is null) || (TableUsers.IndexOf(SelectedUser) == 0))

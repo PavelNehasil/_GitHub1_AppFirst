@@ -14,5 +14,7 @@ public sealed partial class ImageDialog : ContentDialog
     {
         Title = imageName;
         ImageImage.Source = image;
+        ImageImage.Width = width;
+        ImageImage.Height = height;
     }
 }

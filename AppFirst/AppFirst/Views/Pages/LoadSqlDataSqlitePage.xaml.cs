@@ -1,6 +1,7 @@
 ﻿using AppFirst.Models;
 using AppFirst.ViewModels.Pages;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 
 namespace AppFirst.Views.Pages;
 
@@ -78,6 +79,14 @@ public sealed partial class LoadSqlDataSqlitePage : Page
                         ViewModel.ViewLoginImageDialog();
                         break;
                     }
+                case "view2":
+                    {
+                        if (ViewModel.SelectedLoginImage == null)
+                            break;
+
+                        ViewModel.ViewLoginImageDialog2();
+                        break;
+                    }
 
             }
         }
@@ -101,6 +110,67 @@ public sealed partial class LoadSqlDataSqlitePage : Page
         var viewPoint = e.GetPosition(view);
 
         ContextMenuLoginImage.ShowAt(view, viewPoint);
+    }
+
+    private void TestButton3Click(object sender, RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        ViewModel.SelectedLoginImage = button.DataContext as LoginImage;
+
+        var listViewItem = FindParent<ListViewItem>(button);
+
+        if (listViewItem != null)
+        {
+            var teachingTip = FindDescendant<TeachingTip>(listViewItem, t => t.Name == "ToggleThemeTeachingTip3");
+
+            if (teachingTip != null)
+            {
+                teachingTip.IsOpen = true;
+            }
+        }
+    }
+
+    // Helper method to find a parent of a specific type
+    private T FindParent<T>(DependencyObject child) where T : DependencyObject
+    {
+        DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+        if (parentObject == null) return null;
+
+        T parent = parentObject as T;
+        if (parent != null)
+        {
+            return parent;
+        }
+        else
+        {
+            return FindParent<T>(parentObject);
+        }
+    }
+
+    // Helper method to find a descendant of a specific type and condition
+    private T FindDescendant<T>(DependencyObject element, Func<T, bool> condition) where T : FrameworkElement
+    {
+        if (element == null)
+            return null;
+
+        int childCount = VisualTreeHelper.GetChildrenCount(element);
+        for (int i = 0; i < childCount; i++)
+        {
+            var child = VisualTreeHelper.GetChild(element, i);
+            if (child is T frameworkElement && condition(frameworkElement))
+            {
+                return frameworkElement;
+            }
+
+            var descendant = FindDescendant(child, condition);
+            if (descendant != null)
+            {
+                return descendant;
+            }
+        }
+
+        return null;
     }
 }
 

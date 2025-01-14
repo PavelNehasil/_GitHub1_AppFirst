@@ -22,4 +22,5 @@ public sealed partial class ImageDialogEx : WindowEx
     {
         this.Close();
     }
+
 }

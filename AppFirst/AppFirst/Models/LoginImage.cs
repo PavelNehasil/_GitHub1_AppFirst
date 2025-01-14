@@ -70,5 +70,9 @@ namespace AppFirst.Models
         {
             return Id == (obj as LoginImage).Id;
         }
+
+        private FrameworkElement testButton3;
+
+        public FrameworkElement TestButton3 { get => testButton3; set => SetProperty(ref testButton3, value); }
     }
 }

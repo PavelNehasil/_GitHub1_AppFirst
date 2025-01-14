@@ -31,6 +31,7 @@
             x:Name="DeleteLoginImageCommand"
             Command="{x:Bind ViewModel.DeleteLoginImageCommand}"
             Description="Delete login image" />
+        
         <DataTemplate x:Key="UsersListViewTemplate" x:DataType="local1:User">
             <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
                 <RelativePanel
@@ -180,6 +181,54 @@
                 </RelativePanel>
             </UserControl>
         </DataTemplate>
+        <DataTemplate x:Key="LoginImagesListViewTemplate" x:DataType="local1:LoginImage">
+            <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind ImageName}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <PersonPicture
+                    x:Name="ImagePersonPicture"
+                    MaxHeight="100"
+                    ProfilePicture="{x:Bind ImageSource}" />
+                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        HorizontalAlignment="Left"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        LineHeight="20"
+                        Style="{ThemeResource BaseTextBlockStyle}"
+                        Text="{x:Bind ImageName}" />
+                    <TextBlock
+                        Width="350"
+                        MaxHeight="60"
+                        Margin="0,0,0,10"
+                        FontFamily="Segoe UI"
+                        FontSize="13"
+                        FontWeight="Normal"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind Description}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="Wrap" />
+                    <Button
+                        x:Name="TestButton3"
+                        Click="TestButton3Click"
+                        Content="TeachingTip"/>
+                    <TeachingTip
+                        x:Name="ToggleThemeTeachingTip3"
+                        Title="{x:Bind ImageName}"
+                        PreferredPlacement="Center"
+                        Subtitle="..."
+                        Target="{Binding ElementName=TestButton3}">
+                        <TeachingTip.HeroContent>
+                            <Image AutomationProperties.Name="Sunset" Source="{x:Bind ImageSource}" />
+                        </TeachingTip.HeroContent>
+                    </TeachingTip>
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -249,7 +298,7 @@
                             IsEnabled="{x:Bind ViewModel.IsUserSelected, Mode=OneWay}"
                             ToolTipService.ToolTip="Move up selected user">
                             <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE70E;"/>
+                                <FontIcon Glyph="&#xE70E;" />
                             </AppBarButton.Icon>
                         </AppBarButton>
                         <AppBarButton
@@ -258,7 +307,7 @@
                             IsEnabled="{x:Bind ViewModel.IsUserSelected, Mode=OneWay}"
                             ToolTipService.ToolTip="Move down selected user">
                             <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE70D;"/>
+                                <FontIcon Glyph="&#xE70D;" />
                             </AppBarButton.Icon>
                         </AppBarButton>
                         <AppBarSeparator />
@@ -474,47 +523,13 @@
                         CanDrag="True"
                         CanDragItems="True"
                         CanReorderItems="True"
+                        Holding="ListViewLoginImage_Holding"
+                        ItemTemplate="{StaticResource LoginImagesListViewTemplate}"
                         ItemsSource="{x:Bind ViewModel.TableLoginImages, Mode=TwoWay}"
-                        SelectedItem="{x:Bind ViewModel.SelectedLoginImage, Mode=TwoWay}"
-                        SelectionMode="Single"
                         RightTapped="ListViewLoginImage_RightTapped"
-                        Holding="ListViewLoginImage_Holding">
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local1:LoginImage">
-                                <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind ImageName}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" MinWidth="150" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <PersonPicture
-                                        MaxHeight="100"
-                                        ProfilePicture="{x:Bind ImageSource}"/>
-
-                                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                        <TextBlock
-                                            Margin="0,0,0,6"
-                                            HorizontalAlignment="Left"
-                                            FontSize="14"
-                                            FontWeight="SemiBold"
-                                            LineHeight="20"
-                                            Style="{ThemeResource BaseTextBlockStyle}"
-                                            Text="{x:Bind ImageName}" />
-                                        <TextBlock
-                                            Width="350"
-                                            MaxHeight="60"
-                                            Margin="0,0,0,10"
-                                            FontFamily="Segoe UI"
-                                            FontWeight="Normal"
-                                            FontSize="13"
-                                            Style="{ThemeResource BodyTextBlockStyle}"
-                                            Text="{x:Bind Description}"
-                                            TextTrimming="CharacterEllipsis"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
-                                </Grid>
-
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
+                        SelectedItem="{x:Bind ViewModel.SelectedLoginImage, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        
                         <ListView.ContextFlyout>
                             <MenuFlyout x:Name="ContextMenuLoginImage">
                                 <MenuFlyoutItem
@@ -528,21 +543,30 @@
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem
                                     x:Uid="DeleteLoginImage"
-                                    DataContext="{Binding ElementName=ListViewLoginImage, Path=SelectedItem}"
                                     Click="MenuFlyoutItemLoginImage_Clicked"
+                                    DataContext="{Binding ElementName=ListViewLoginImage, Path=SelectedItem}"
                                     Tag="delete"
                                     Text="Delete Image">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe711;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutSeparator />
                                 <MenuFlyoutItem
                                     x:Uid="ViewLoginImage"
-                                    DataContext="{Binding ElementName=ListViewLoginImage, Path=SelectedItem}"
                                     Click="MenuFlyoutItemLoginImage_Clicked"
+                                    DataContext="{Binding ElementName=ListViewLoginImage, Path=SelectedItem}"
                                     Tag="view"
                                     Text="View Image">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8BA;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    Click="MenuFlyoutItemLoginImage_Clicked"
+                                    DataContext="{Binding ElementName=ListViewLoginImage, Path=SelectedItem}"
+                                    Tag="view2"
+                                    Text="View Image2">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8BA;" />
                                     </MenuFlyoutItem.Icon>
