@@ -61,9 +61,9 @@
                 VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                RelativePanel.AlignRightWithPanel="True"
                 Click="OnClose"
                 IsEnabled="true"
+                RelativePanel.AlignRightWithPanel="True"
                 ToolTipService.ToolTip="Close">
                 <StackPanel Orientation="Horizontal">
                     <FontIcon Glyph="&#xE8BB;" />

@@ -13,6 +13,7 @@ namespace AppFirst.Views.Dialogs
             ViewModel = App.GetService<UserDialogViewModel>();
             DataContext = ViewModel;
 
+
             this.InitializeComponent();
 
             _users = users;
@@ -30,6 +31,7 @@ namespace AppFirst.Views.Dialogs
             ViewModel.Email = user.Email;
             ViewModel.FirstName = user.FirstName;
             ViewModel.LastName = user.LastName;
+            ViewModel.ImageSource = user.ImageSource;
         }
 
         public bool ValidateCredentials(string username, string password)

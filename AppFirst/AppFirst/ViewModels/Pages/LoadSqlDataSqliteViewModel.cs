@@ -248,8 +248,9 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     {
         var dialog = new UserDialog(TableUsers.Select(x => x.UserName).ToList());
         dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
-        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
         dialog.DefaultButton = ContentDialogButton.Primary;
+        dialog.ViewModel.TableLoginImages = TableLoginImages;
         var result = await dialog.ShowAsync();
 
         if (result == ContentDialogResult.Primary)
@@ -289,9 +290,10 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         userList.DeleteIfExists(SelectedUser.UserName);
         var dialog = new UserDialog(userList);
         dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
-        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
         dialog.DefaultButton = ContentDialogButton.Primary;
         dialog.SetUser(SelectedUser);
+        dialog.ViewModel.TableLoginImages = TableLoginImages;
 
         var result = await dialog.ShowAsync();
 

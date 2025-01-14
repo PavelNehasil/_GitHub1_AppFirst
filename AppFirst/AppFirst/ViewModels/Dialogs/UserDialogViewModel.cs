@@ -1,4 +1,8 @@
-﻿namespace AppFirst.ViewModels.Dialogs
+﻿using System.Collections.ObjectModel;
+using AppFirst.Models;
+using Microsoft.UI.Xaml.Media.Imaging;
+
+namespace AppFirst.ViewModels.Dialogs
 {
     public partial class UserDialogViewModel : ObservableObject
     {
@@ -28,6 +32,12 @@
         }
 
         [ObservableProperty]
+        private int _selectedItemLoginImage;
+
+        [ObservableProperty]
+        private ObservableCollection<LoginImage> _tableLoginImages;
+
+        [ObservableProperty]
         private bool _isAdmin = false;
 
         [ObservableProperty]
@@ -38,6 +48,9 @@
 
         [ObservableProperty]
         private string _lastName = string.Empty;
+
+        [ObservableProperty]
+        private BitmapImage _imageSource = null;
 
         [ObservableProperty]
         private string _errorInfoBarMessage = string.Empty;
