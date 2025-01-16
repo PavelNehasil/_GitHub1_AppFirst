@@ -683,7 +683,8 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             loginImage.ImageSource = ImageBlobConverter.ByteToBitmapAsync(loginImage.Image).Result;
             await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(loginImage);
             await OnReloadLoginImages();
-            SelectedLoginImage = TableLoginImages[TableLoginImages.Count - 1];
+            if (TableLoginImages.Count > 0)
+                SelectedLoginImage = TableLoginImages[TableLoginImages.Count - 1];
         }
     }
 

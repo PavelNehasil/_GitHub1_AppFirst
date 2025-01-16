@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalProjects", "ExternalProjects", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalProjects", "ExternalProjects", "{F507AE34-360E-4AA9-8FC8-6D642448B699}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Westwind.Utilities", "ExternalProjects\Westwind.Utilities\Westwind.Utilities\Westwind.Utilities.csproj", "{85B7162A-F04C-6E36-EF8C-FBB1621F555F}"
 EndProject
@@ -59,7 +59,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{85B7162A-F04C-6E36-EF8C-FBB1621F555F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{85B7162A-F04C-6E36-EF8C-FBB1621F555F} = {F507AE34-360E-4AA9-8FC8-6D642448B699}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91EEECC1-2BD0-4007-920A-F7E41E138C81}

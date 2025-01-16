@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net462;net8.0;net9.0;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net9.0</TargetFrameworks>
 		<Version>5.0.11</Version>
 		<Authors>Rick Strahl</Authors>
 		<RequireLicenseAcceptance>false</RequireLicenseAcceptance>
@@ -19,12 +19,13 @@
 		<PackageProjectUrl>http://github.com/rickstrahl/westwind.utilities</PackageProjectUrl>
 
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
+		<PackageLicenseFile></PackageLicenseFile>
 
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
 		<Copyright>Rick Strahl, West Wind Technologies, 2010-2024</Copyright>
 		<Company>West Wind Technologies</Company>
 		<SqlQueryToolsConnectionString />
+		<PlatformTarget>x64</PlatformTarget>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -52,11 +53,6 @@
 		<DebugType>embedded</DebugType>
 		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
-	
-
-	<ItemGroup>		
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
 	
 	<ItemGroup Condition=" '$(TargetFramework)' != 'net462'">	
 		
@@ -97,6 +93,10 @@
 	<ItemGroup>
 		<None Include="icon.png" Pack="true" PackagePath="" />
 		<None Include="LICENSE.MD" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>
 
 </Project>
