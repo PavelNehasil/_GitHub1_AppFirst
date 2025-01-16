@@ -22,8 +22,8 @@ namespace AppFirst.Services
 
                 string query = """
                     SELECT u.Id, u.IdLoginImage, u.UserName, u.Password, u.IsAdmin, u.Email, u.FirstName, u.LastName, li.Image
-                    FROM Users u, LoginImages li
-                    WHERE u.IdLoginImage = li.Id
+                    FROM Users u 
+                    left JOIN LoginImages li ON (u.IdLoginImage = li.Id)
                     ORDER BY u.Id;
                     """;
 

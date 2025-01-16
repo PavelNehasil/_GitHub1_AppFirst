@@ -102,16 +102,6 @@ public sealed partial class LoadSqlDataSqlitePage : Page
         ContextMenuLoginImage.ShowAt(view, viewPoint);
     }
 
-    private void ListViewLoginImage_Holding(object sender, HoldingRoutedEventArgs e)
-    {
-        var view = (ListView)sender;
-        ViewModel.SelectedLoginImage = ((FrameworkElement)e.OriginalSource).DataContext as LoginImage;
-
-        var viewPoint = e.GetPosition(view);
-
-        ContextMenuLoginImage.ShowAt(view, viewPoint);
-    }
-
     private void TestButton3Click(object sender, RoutedEventArgs e)
     {
         var button = sender as Button;
