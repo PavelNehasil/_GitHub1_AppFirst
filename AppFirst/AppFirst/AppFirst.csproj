@@ -165,6 +165,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ExternalProjects\Westwind.Utilities\Westwind.Utilities\Westwind.Utilities.csproj" />
   </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+  </PropertyGroup>
   <!-- 
   Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
   Explorer "Package and Publish" context menu entry to be enabled for this project even if 
