@@ -25,6 +25,7 @@ namespace AppFirst.Views.Dialogs
 
         public void SetUser(User user)
         {
+            ViewModel.IdLoginImage = user.IdLoginImage;
             ViewModel.Username = user.UserName;
             ViewModel.Password = user.Password;
             ViewModel.IsAdmin = user.IsAdmin;
@@ -68,12 +69,14 @@ namespace AppFirst.Views.Dialogs
             {
                 //var verified = BC.Verify("MyPassword", user.Password);
                 ResultUser = new User();
+                ResultUser.IdLoginImage = ViewModel.IdLoginImage;
                 ResultUser.UserName = ViewModel.Username;
                 ResultUser.Password = ViewModel.Password;//BCrypt.Net.BCrypt.HashPassword(ViewModel.Password);
                 ResultUser.IsAdmin = ViewModel.IsAdmin;
                 ResultUser.Email = ViewModel.Email;
                 ResultUser.FirstName = ViewModel.FirstName;
                 ResultUser.LastName = ViewModel.LastName;
+                ResultUser.ImageSource = ViewModel.ImageSource;
             }
 
             if (args.Cancel == false)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using AppFirst.Classes;
 using AppFirst.Models;
 
 namespace AppFirst.Services
@@ -19,22 +20,31 @@ namespace AppFirst.Services
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT Id, UserName, Password, IsAdmin, Email, FirstName, LastName FROM Users ORDER BY Id;";
+                string query = """
+                    SELECT u.Id, u.IdLoginImage, u.UserName, u.Password, u.IsAdmin, u.Email, u.FirstName, u.LastName, li.Image
+                    FROM Users u, LoginImages li
+                    WHERE u.IdLoginImage = li.Id
+                    ORDER BY u.Id;
+                    """;
+
                 using (var command = new SQLiteCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
+                            byte[] imageBlob = reader.IsDBNull(8) ? null : (byte[])reader["Image"];
                             var user = new User
                             {
                                 Id = reader.GetInt32(0),
-                                UserName = reader.GetString(1),
-                                Password = reader.IsDBNull(2) ? null : reader.GetString(2),
-                                IsAdmin = reader.GetBoolean(3),
-                                Email = reader.IsDBNull(4) ? null : reader.GetString(4),
-                                FirstName = reader.IsDBNull(5) ? null : reader.GetString(5),
-                                LastName = reader.IsDBNull(6) ? null : reader.GetString(6)
+                                IdLoginImage = reader.GetInt32(1),
+                                UserName = reader.GetString(2),
+                                Password = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                IsAdmin = reader.GetBoolean(4),
+                                Email = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                FirstName = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                LastName = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                ImageSource = ImageBlobConverter.ByteToBitmapAsync(imageBlob).Result
                             };
 
                             users.Add(user);
@@ -54,14 +64,15 @@ namespace AppFirst.Services
                 {
                     await connection.OpenAsync();
                     string query = """
-                        INSERT INTO Users (UserName, Password, IsAdmin, Email, FirstName, LastName)
-                        VALUES (@userName, @password, @isAdmin, @email, @firstName, @lastName);
+                        INSERT INTO Users (IdLoginImage, UserName, Password, IsAdmin, Email, FirstName, LastName)
+                        VALUES (@idLoginImage, @userName, @password, @isAdmin, @email, @firstName, @lastName);
                         SELECT last_insert_rowid();
                         """;
 
 
                     using (SQLiteCommand command = new SQLiteCommand(query, connection))
                     {
+                        command.Parameters.AddWithValue("@idLoginImage", user.IdLoginImage);
                         command.Parameters.AddWithValue("@userName", user.UserName);
                         command.Parameters.AddWithValue("@password", user.Password);
                         command.Parameters.AddWithValue("@isAdmin", user.IsAdmin);
@@ -124,9 +135,13 @@ namespace AppFirst.Services
                     }
                     foreach (User user in users)
                     {
-                        query = "INSERT INTO Users (UserName, Password, IsAdmin, Email, FirstName, LastName) VALUES (@userName, @password, @isAdmin, @email, @firstName, @lastName);";
+                        query = """
+                            INSERT INTO Users (IdLoginImage, UserName, Password, IsAdmin, Email, FirstName, LastName)
+                            VALUES (@idLoginImage, @userName, @password, @isAdmin, @email, @firstName, @lastName);
+                            """;
                         using (SQLiteCommand command = new SQLiteCommand(query, connection))
                         {
+                            command.Parameters.AddWithValue("@idLoginImage", user.IdLoginImage);
                             command.Parameters.AddWithValue("@userName", user.UserName);
                             command.Parameters.AddWithValue("@password", user.Password);
                             command.Parameters.AddWithValue("@isAdmin", user.IsAdmin);
@@ -156,9 +171,14 @@ namespace AppFirst.Services
                 using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
                 {
                     await connection.OpenAsync();
-                    string updateQuery = "UPDATE Users SET UserName=@userName, Password=@password, IsAdmin=@isAdmin, Email=@email, FirstName=@firstName, LastName=@lastName WHERE Id=@id;";
+                    string updateQuery = """
+                        UPDATE Users SET IdLoginImage=@idLoginImage, UserName=@userName, Password=@password, IsAdmin=@isAdmin, Email=@email, FirstName=@firstName, LastName=@lastName
+                        WHERE Id=@id;
+                        """;
+
                     using (SQLiteCommand command = new SQLiteCommand(updateQuery, connection))
                     {
+                        command.Parameters.AddWithValue("@idLoginImage", user.IdLoginImage);
                         command.Parameters.AddWithValue("@userName", user.UserName);
                         command.Parameters.AddWithValue("@password", user.Password);
                         command.Parameters.AddWithValue("@isAdmin", user.IsAdmin);

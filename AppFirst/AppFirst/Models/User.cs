@@ -10,6 +10,7 @@ namespace AppFirst.Models
     public class User : INotifyPropertyChanged
     {
         private int id;
+        private int idLoginImage;
         private string userName;
         private string password;
         private bool isAdmin;
@@ -24,6 +25,13 @@ namespace AppFirst.Models
         {
             get => id;
             set => SetProperty(ref id, value);
+        }
+
+        [Required]
+        public int IdLoginImage
+        {
+            get => idLoginImage;
+            set => SetProperty(ref idLoginImage, value);
         }
 
         [Required]

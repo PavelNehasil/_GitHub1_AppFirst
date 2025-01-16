@@ -6,6 +6,29 @@ namespace AppFirst.Classes;
 
 static class ImageBlobConverter
 {
+    public static byte[] ImageFilePathToBytes(string filePath)
+    {
+        byte[] bytes = null;
+        if (File.Exists(filePath))
+        {
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                {
+                    bytes = binaryReader.ReadBytes((int)fileStream.Length);
+                }
+            }
+        }
+        //var fileUri = new Uri(filePath);
+        //var bitmapImage = new BitmapImage(fileUri);
+        //StorageFile storageFile = await StorageFile.GetFileFromPathAsync(file.Path);
+        //RandomAccessStreamReference stream = RandomAccessStreamReference.CreateFromFile(storageFile);
+        //var streamContent = await stream.OpenReadAsync();
+        //byte[] buffer = new byte[streamContent.Size];
+        //await streamContent.ReadAsync(buffer.AsBuffer(), (uint)streamContent.Size, InputStreamOptions.None);
+        return bytes;
+    }
+
     //public static async Task<byte[]> BitmapImageToBytesAsync(BitmapImage bitmapImage)
     //{
     //    byte[] bytes = null;

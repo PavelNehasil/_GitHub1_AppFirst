@@ -36,47 +36,65 @@
         <DataTemplate x:Key="UsersListViewTemplate" x:DataType="local1:User">
             <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
                 <RelativePanel
-                    Height="55"
-                    Padding="8,4,4,4"
+                    Height="60"
+                    Padding="4,4,4,4"
                     Background="Transparent">
                     <StackPanel Background="Transparent" Orientation="Horizontal">
                         <StackPanel
-                            Margin="5"
-                            Padding="7"
+                            Margin="1"
+                            Padding="1"
                             Background="Transparent"
                             Orientation="Horizontal">
+                            <StackPanel
+                                Width="100"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Center">
+                            <PersonPicture
+                                Width="50"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                ProfilePicture="{Binding ImageSource}" />
+                            </StackPanel>
                             <TextBlock
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
                                 Width="100"
                                 Margin="5,0,0,0"
                                 Style="{ThemeResource BaseTextBlockStyle}"
                                 Text="{Binding Id}" />
                             <TextBlock
+                                VerticalAlignment="Center"
                                 Width="150"
                                 Margin="5,0,0,0"
                                 Style="{ThemeResource BaseTextBlockStyle}"
                                 Text="{Binding UserName}" />
                             <TextBlock
+                                VerticalAlignment="Center"
                                 Width="150"
                                 Margin="5,0,0,0"
                                 Style="{ThemeResource BaseTextBlockStyle}"
                                 Text="{Binding Password}" />
                             <CheckBox
-                                Width="100"
+                                VerticalAlignment="Center"
+                                Width="50"
                                 Margin="5,0,0,0"
                                 IsChecked="{Binding IsAdmin, Mode=OneWay}"
                                 IsEnabled="False"
                                 Style="{ThemeResource BaseTextBlockStyle}" />
                             <TextBlock
+                                VerticalAlignment="Center"
                                 Width="200"
                                 Margin="5,0,0,0"
                                 Style="{ThemeResource BaseTextBlockStyle}"
                                 Text="{Binding Email}" />
                             <TextBlock
+                                VerticalAlignment="Center"
                                 Width="100"
                                 Margin="5,0,0,0"
                                 Style="{ThemeResource BaseTextBlockStyle}"
                                 Text="{Binding FirstName}" />
                             <TextBlock
+                                VerticalAlignment="Center"
                                 Width="100"
                                 Margin="5,0,0,0"
                                 Style="{ThemeResource BaseTextBlockStyle}"
@@ -329,7 +347,7 @@
                 </StackPanel>
 
                 <StackPanel
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     Orientation="Horizontal">
 
@@ -337,7 +355,8 @@
 
                         <ListView
                             x:Name="UsersListView"
-                            Width="1150"
+                            HorizontalAlignment="Stretch"
+                            Width="Auto"
                             Height="400"
                             Margin="10,0,0,0"
                             BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
@@ -349,6 +368,13 @@
                             SelectionMode="Single">
                             <ListView.Header>
                                 <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Width="50"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Image" />
                                     <TextBlock
                                         Width="100"
                                         Margin="5,0,0,0"
@@ -371,7 +397,7 @@
                                         HorizontalTextAlignment="Center"
                                         Text="Password" />
                                     <TextBlock
-                                        Width="100"
+                                        Width="50"
                                         Margin="5,0,0,0"
                                         VerticalAlignment="Center"
                                         FontWeight="Bold"
@@ -524,13 +550,13 @@
                         CanDrag="True"
                         CanDragItems="True"
                         CanReorderItems="True"
+                        DoubleTapped="ListViewLoginImage_DoubleTapped"
                         Holding="ListViewLoginImage_Holding"
                         ItemTemplate="{StaticResource LoginImagesListViewTemplate}"
                         ItemsSource="{x:Bind ViewModel.TableLoginImages, Mode=TwoWay}"
                         RightTapped="ListViewLoginImage_RightTapped"
                         SelectedItem="{x:Bind ViewModel.SelectedLoginImage, Mode=TwoWay}"
-                        SelectionMode="Single"
-                        DoubleTapped="ListViewLoginImage_DoubleTapped">
+                        SelectionMode="Single">
                         <ListView.ContextFlyout>
                             <MenuFlyout x:Name="ContextMenuLoginImage">
                                 <MenuFlyoutItem

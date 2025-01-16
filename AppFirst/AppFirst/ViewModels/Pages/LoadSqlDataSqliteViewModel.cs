@@ -1,15 +1,12 @@
 ﻿using System.Collections.ObjectModel;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
+using AppFirst.Classes;
 using AppFirst.Models;
 using AppFirst.Services;
 using AppFirst.Views.Dialogs;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using WinUIEx;
 
 namespace AppFirst.ViewModels.Pages;
@@ -21,7 +18,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     private readonly LoadSqlDataSqliteService _loadSqlDataSqliteService;
     private readonly LoadSqlDataSqliteService_LoginUser _loadSqlDataSqliteService_LoginUser;
     private readonly LoadSqlDataSqliteService_LoginType _loadSqlDataSqliteService_LoginType;
-    private readonly LoadSqlDataSqliteService_LoginImage _loadSqlDataSqliteService_LoginImage;
+    public readonly LoadSqlDataSqliteService_LoginImage _loadSqlDataSqliteService_LoginImage;
 
     public string GetLoginType(int IdLoginType)
     {
@@ -251,6 +248,8 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
         dialog.DefaultButton = ContentDialogButton.Primary;
         dialog.ViewModel.TableLoginImages = TableLoginImages;
+        dialog.ViewModel.loadSqlDataSqliteViewModel = this;
+
         var result = await dialog.ShowAsync();
 
         if (result == ContentDialogResult.Primary)
@@ -294,6 +293,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         dialog.DefaultButton = ContentDialogButton.Primary;
         dialog.SetUser(SelectedUser);
         dialog.ViewModel.TableLoginImages = TableLoginImages;
+        dialog.ViewModel.loadSqlDataSqliteViewModel = this;
 
         var result = await dialog.ShowAsync();
 
@@ -522,16 +522,6 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             return;
         }
 
-        //var dialog = new ImageDialog();
-        //dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
-        //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-        //dialog.Title = SelectedLoginImage.ImageName;
-        //dialog.CloseButtonText = "Close";
-
-        //dialog.SetImage(SelectedLoginImage.ImageName, SelectedLoginImage.ImageSource, SelectedLoginImage.ImageSource.PixelWidth, SelectedLoginImage.ImageSource.PixelHeight);
-
-        //ContentDialogResult result = await dialog.ShowAsync();
-
         if (imageDialogEx is null || imageDialogEx.AppWindow is null)
         {
             imageDialogEx = new ImageDialogEx();
@@ -686,26 +676,17 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         var file = await openPicker.PickSingleFileAsync();
         if (file != null)
         {
-            var fileUri = new Uri(file.Path);
-
-            var bitmapImage = new BitmapImage(fileUri);
-
-            StorageFile storageFile = await StorageFile.GetFileFromPathAsync(file.Path);
-
-            RandomAccessStreamReference stream = RandomAccessStreamReference.CreateFromFile(storageFile);
-            var streamContent = await stream.OpenReadAsync();
-            byte[] buffer = new byte[streamContent.Size];
-            await streamContent.ReadAsync(buffer.AsBuffer(), (uint)streamContent.Size, InputStreamOptions.None);
-
-            await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(file.Name, file.Path, buffer);
+            var loginImage = new LoginImage();
+            loginImage.Image = ImageBlobConverter.ImageFilePathToBytes(file.Path);
+            loginImage.ImageName = file.Name;
+            loginImage.Description = file.Path;
+            loginImage.ImageSource = ImageBlobConverter.ByteToBitmapAsync(loginImage.Image).Result;
+            await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(loginImage);
             await OnReloadLoginImages();
+            SelectedLoginImage = TableLoginImages[TableLoginImages.Count - 1];
         }
-        else
-        {
-
-        }
-
     }
+
     public void DeleteLoginImageCommand_Executed(int id)
     {
         if (id == 0) return;

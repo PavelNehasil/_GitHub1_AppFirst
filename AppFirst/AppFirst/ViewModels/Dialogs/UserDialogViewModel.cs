@@ -1,11 +1,15 @@
 ﻿using System.Collections.ObjectModel;
+using AppFirst.Classes;
 using AppFirst.Models;
+using AppFirst.ViewModels.Pages;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.Pickers;
 
 namespace AppFirst.ViewModels.Dialogs
 {
     public partial class UserDialogViewModel : ObservableObject
     {
+        public LoadSqlDataSqliteViewModel loadSqlDataSqliteViewModel;
 
         private string _username;
         private string _password;
@@ -32,7 +36,10 @@ namespace AppFirst.ViewModels.Dialogs
         }
 
         [ObservableProperty]
-        private int _selectedItemLoginImage;
+        private int _idLoginImage;
+
+        [ObservableProperty]
+        private int _selectedIndexLoginImage;
 
         [ObservableProperty]
         private ObservableCollection<LoginImage> _tableLoginImages;
@@ -78,6 +85,57 @@ namespace AppFirst.ViewModels.Dialogs
                 ErrorInfoBarMessage = string.Empty;
                 ErrorInfoBarIsOpen = false;
             }
+        }
+
+        [RelayCommand]
+        private void OnSelectLoginImage()
+        {
+            if (SelectedIndexLoginImage >= 0)
+            {
+                ImageSource = TableLoginImages[SelectedIndexLoginImage].ImageSource;
+                IdLoginImage = TableLoginImages[SelectedIndexLoginImage].Id;
+            }
+        }
+
+        [RelayCommand]
+        private async void OnAddLoginImage()
+        {
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+
+            var window = App.MainWindow;
+
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+
+            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".jpeg");
+            openPicker.FileTypeFilter.Add(".png");
+            openPicker.FileTypeFilter.Add(".bmp");
+
+            var file = await openPicker.PickSingleFileAsync();
+            if (file != null)
+            {
+                var bitmapImage = new BitmapImage(new Uri(file.Path));
+                var loginImage = new LoginImage();
+                loginImage.ImageName = file.Name;
+                loginImage.Description = file.Path;
+                loginImage.Image = ImageBlobConverter.ImageFilePathToBytes(file.Path);
+                loginImage.ImageSource = bitmapImage;
+
+                await loadSqlDataSqliteViewModel._loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(loginImage);
+
+                TableLoginImages.Add(loginImage);
+                SelectedIndexLoginImage = TableLoginImages.Count - 1;
+                //await loadSqlDataSqliteViewModel.OnReloadLoginImages();
+            }
+            else
+            {
+
+            }
+
         }
 
     }

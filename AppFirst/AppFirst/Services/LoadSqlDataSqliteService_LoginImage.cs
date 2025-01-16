@@ -62,19 +62,21 @@ namespace AppFirst.Services
             }
         }
 
-        public async Task InsertLoginImageAsync(string imageName, string description, byte[] image)
+        public async Task InsertLoginImageAsync(LoginImage loginImage)
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var command = new SQLiteCommand("""
-                    INSERT INTO LoginImages (ImageName, Description, Image) VALUES (@imageName, @description, @image)
+                    INSERT INTO LoginImages (ImageName, Description, Image) VALUES (@imageName, @description, @image);
+                    SELECT last_insert_rowid();
                     """, connection);
 
-                command.Parameters.AddWithValue("@imageName", imageName);
-                command.Parameters.AddWithValue("@description", description);
-                command.Parameters.AddWithValue("@image", image);
-                await command.ExecuteNonQueryAsync();
+                command.Parameters.AddWithValue("@imageName", loginImage.ImageName);
+                command.Parameters.AddWithValue("@description", loginImage.Description);
+                command.Parameters.AddWithValue("@image", loginImage.Image);
+                loginImage.Id = Convert.ToInt32(command.ExecuteScalar());
+                //await command.ExecuteNonQueryAsync();
                 await connection.CloseAsync();
             }
         }
