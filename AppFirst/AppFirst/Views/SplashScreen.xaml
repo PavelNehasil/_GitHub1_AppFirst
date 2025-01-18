@@ -11,7 +11,7 @@
         <Image Source="ms-appx:///Images/SplashScreen.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1" Stretch="UniformToFill"
                />
         <StackPanel VerticalAlignment="Bottom">
-            <TextBlock Text="WinUI EX Sample App" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,-5"
+            <TextBlock Text="AppFirst" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,-5"
                        Foreground="White" FontWeight="Light"
                        Style="{StaticResource TitleTextBlockStyle}" />
             <TextBlock x:Name="status" Text="Loading..." HorizontalAlignment="Center" />

@@ -38,4 +38,10 @@ public sealed partial class SamplePage : Page
 
 
     }
+
+    private void FilePath_ButtonClick(object sender, RoutedEventArgs e)
+    {
+        var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        FilePath_TextBox.Text = exePath;
+    }
 }

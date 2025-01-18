@@ -14,6 +14,7 @@ namespace AppFirst.Models
         private string description;
         private byte[] image;
         private BitmapImage imageSource;
+        private int countImages;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -50,6 +51,12 @@ namespace AppFirst.Models
             set => SetProperty(ref imageSource, value);
         }
 
+        public int CountImages
+        {
+            get => countImages;
+            set => SetProperty(ref countImages, value);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -74,5 +81,10 @@ namespace AppFirst.Models
         private FrameworkElement testButton3;
 
         public FrameworkElement TestButton3 { get => testButton3; set => SetProperty(ref testButton3, value); }
+
+        public double IsUsed
+        {
+            get => (CountImages > 0) ? 1.0 : 0.0;
+        }
     }
 }

@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>AppFirst</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -33,7 +33,7 @@
     <SqlQueryToolsConnectionString />
     <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <NeutralLanguage>en</NeutralLanguage>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
   <ItemGroup>
     <None Update="T4Templates\NavigationPageMappings.tt">
@@ -103,6 +103,8 @@
     <Content Remove="Assets\AppDataZaloha.json" />
     <Content Remove="Assets\arrow-down-left-box-outline.png" />
     <Content Remove="Assets\browsers-outline.svg" />
+    <Content Remove="Assets\cloud-download-outline.png" />
+    <Content Remove="Assets\cloud-offline-outline.png" />
     <Content Remove="Assets\NavViewMenu\AppDataCopilot.json" />
     <Content Remove="Assets\NavViewMenu\AppDataSchema.json" />
   </ItemGroup>

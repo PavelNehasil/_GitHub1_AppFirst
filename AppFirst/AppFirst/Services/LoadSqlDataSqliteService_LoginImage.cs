@@ -21,8 +21,9 @@ namespace AppFirst.Services
             {
                 await connection.OpenAsync();
                 var command = new SQLiteCommand("""
-                    SELECT Id, ImageName, Description, Image FROM LoginImages
-                    ORDER BY Id
+                    SELECT li.Id, li.ImageName, li.Description, li.Image, ifnull(lic.CountImages,0) as CountImages  FROM LoginImages li
+                    Left join (select IdLoginImage, Count(Id) as CountImages from Users group by IdLoginImage) as lic on(li.Id = lic.IdLoginImage )
+                    ORDER BY li.Id
                     """, connection);
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -33,7 +34,8 @@ namespace AppFirst.Services
                             Id = reader.GetInt32(0),
                             ImageName = reader.GetString(1),
                             Description = reader.IsDBNull(2) ? null : reader.GetString(2),
-                            Image = reader.IsDBNull(3) ? null : (byte[])reader["Image"]
+                            Image = reader.IsDBNull(3) ? null : (byte[])reader["Image"],
+                            CountImages = reader.IsDBNull(4) ? 0 : reader.GetInt32(4)
                         };
                         loginImage.ImageSource = ImageBlobConverter.ByteToBitmapAsync(loginImage.Image).Result;
 

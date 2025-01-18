@@ -18,26 +18,26 @@
     <StackPanel Width="550" Height="700">
         <StackPanel Orientation="Horizontal">
             <PersonPicture
+                x:Name="ImagePersonPicture"
                 Width="200"
                 Height="200"
-                x:Name="ImagePersonPicture"
                 Margin="5,5,5,5"
                 ProfilePicture="{Binding ImageSource}" />
             <StackPanel Margin="20,20,20,20">
                 <AppBarButton
-                            x:Name="AddButton"
-                            Command="{x:Bind ViewModel.AddLoginImageCommand}"
-                            Icon="Add"
-                            Label="Add image"
-                            ToolTipService.ToolTip="Add image from file" />
+                    x:Name="AddButton"
+                    Command="{x:Bind ViewModel.AddLoginImageCommand}"
+                    Icon="Add"
+                    Label="Add image"
+                    ToolTipService.ToolTip="Add image from file" />
                 <AppBarButton
-                            x:Name="SetButton"
-                            Command="{x:Bind ViewModel.SelectLoginImageCommand}"
-                            Icon="Back"
-                            Label="Select"
-                            ToolTipService.ToolTip="Select image from catalog" />
+                    x:Name="SetButton"
+                    Command="{x:Bind ViewModel.SelectLoginImageCommand}"
+                    Icon="Back"
+                    Label="Select"
+                    ToolTipService.ToolTip="Select image from catalog" />
             </StackPanel>
-            <StackPanel BorderThickness="1" BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}">
+            <StackPanel BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" BorderThickness="1">
                 <FlipView
                     x:Name="Gallery"
                     Height="200"
@@ -46,7 +46,14 @@
                     SelectedIndex="{Binding SelectedIndexLoginImage, Mode=TwoWay}">
                     <FlipView.ItemTemplate>
                         <DataTemplate x:DataType="local1:LoginImage">
-                            <Image Source="{Binding ImageSource, Mode=OneTime}" />
+                            <StackPanel>
+                                <InfoBadge
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Opacity="{x:Bind IsUsed, Mode=OneWay}"
+                                    Value="{x:Bind CountImages}" />
+                                <Image Source="{x:Bind ImageSource, Mode=OneTime}"/>
+                            </StackPanel>
                         </DataTemplate>
                     </FlipView.ItemTemplate>
                 </FlipView>

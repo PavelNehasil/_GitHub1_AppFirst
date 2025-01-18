@@ -45,6 +45,18 @@
             Margin="5"
             Command="{Binding ShowProgressDialogExCommand}"
             Content="Progress Dialog" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Click="FilePath_ButtonClick"
+            Content="FilePath from exe" />
+        <TextBox
+            x:Name="FilePath_TextBox"
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="5"
+            Text="..." />
 
 
     </Grid>
