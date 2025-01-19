@@ -251,6 +251,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         dialog.ViewModel.loadSqlDataSqliteViewModel = this;
 
         var result = await dialog.ShowAsync();
+        dialog.ViewModel.TableLoginImages = null;
 
         if (result == ContentDialogResult.Primary)
         {
@@ -266,7 +267,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
                     IsLoading = false;
                     OnReload();
                     SelectedUser = dialog.ResultUser;
-
+                    OnReloadLoginImages();
                 });
             }
             catch (Exception ex)
@@ -275,7 +276,6 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
                 HasFailures = true;
             }
         }
-
     }
 
     [RelayCommand]
@@ -296,6 +296,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         dialog.ViewModel.loadSqlDataSqliteViewModel = this;
 
         var result = await dialog.ShowAsync();
+        dialog.ViewModel.TableLoginImages = null;
 
         if (result == ContentDialogResult.Primary)
         {
@@ -314,8 +315,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
                     SelectedUser = dialog.ResultUser;
 
-
-                    //TableUsers.IndexOf(dialog.ResultUser);
+                    OnReloadLoginImages();
                 });
             }
             catch (Exception ex)
@@ -361,13 +361,15 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
                 await dispatcherQueue.EnqueueAsync(() =>
                 {
                     IsLoading = false;
-                    if (index > 0) --index;
+                    if (index > 0)
+                        --index;
                     TableUsers.Remove(SelectedUser);
                     OnReload();
                     if (TableUsers.Count > 0)
                     {
                         SelectedUser = TableUsers[index];
                     }
+                    OnReloadLoginImages();
                 });
             }
             catch (Exception ex)
@@ -495,9 +497,10 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
                 await dispatcherQueue.EnqueueAsync(() =>
                 {
+                    TableLoginImages.Remove(SelectedLoginImage);
                     if (index > 0) --index;
                     IsLoading = false;
-                    OnReloadLoginImages();
+                    //OnReloadLoginImages();
                     if (TableLoginImages.Count > 0)
                     {
                         SelectedLoginImage = TableLoginImages[index];

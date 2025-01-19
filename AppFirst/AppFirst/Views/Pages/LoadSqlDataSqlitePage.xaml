@@ -609,6 +609,15 @@
                                         <FontIcon Glyph="&#xE8BA;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem
+                                    Command="{x:Bind ViewModel.ReloadLoginImagesCommand}"
+                                    Text="Reload Images">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE72C;" />
+                                    </MenuFlyoutItem.Icon>
+                                        
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </ListView.ContextFlyout>
                     </ListView>
