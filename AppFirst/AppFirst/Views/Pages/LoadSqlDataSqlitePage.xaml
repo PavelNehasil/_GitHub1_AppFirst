@@ -616,7 +616,15 @@
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE72C;" />
                                     </MenuFlyoutItem.Icon>
-                                        
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem
+                                    Command="{x:Bind ViewModel.SaveLoginImageCommand}"
+                                    CommandParameter="{x:Bind}"
+                                    Text="Save Image to file">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xe7aa;" />
+                                    </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>
                         </ListView.ContextFlyout>

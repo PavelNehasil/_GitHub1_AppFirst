@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using AppFirst.Classes;
 using AppFirst.Models;
@@ -6,7 +7,11 @@ using AppFirst.Services;
 using AppFirst.Views.Dialogs;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using WinUIEx;
 
 namespace AppFirst.ViewModels.Pages;
@@ -83,7 +88,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
         OnReloadLoginTypes();
         OnReloadLoginImages();
-        //_searchCommand = new WinUICommunity.RelayCommand(OnSearchCommand);
+
     }
 
     [ObservableProperty]
@@ -99,7 +104,6 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
     public ICommand DeleteLoginUserIdCommand => new CommunityToolkit.Mvvm.Input.RelayCommand(DeleteLoginUserIdCommand_Executed);
     public ICommand CreateLoginEventCommand => new CommunityToolkit.Mvvm.Input.RelayCommand(CreateLoginEventCommand_Executed);
     public ICommand CreatePasswordEventCommand => new CommunityToolkit.Mvvm.Input.RelayCommand(CreatePasswordEventCommand_Executed);
-
 
     [RelayCommand]
     private async void OnShowSqlConnectionStringDialog()
@@ -129,13 +133,13 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
         try
         {
-            await _loadSqlDataSqliteService.LoadSqlDataNowAsync(TableUsers);
+            await _loadSqlDataSqliteService.LoadSqlDataNowAsync(TableUsersAll);
 
             DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             await dispatcherQueue.EnqueueAsync(() =>
             {
-                TableUsersAll = new ObservableCollection<User>(TableUsers);
+                TableUsers.AddRange(TableUsersAll);
                 if (selectedUser is not null && TableUsers.Contains(selectedUser))
                 {
                     SelectedUser = selectedUser;
@@ -468,7 +472,6 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
     }
 
-
     [RelayCommand]
     public async void DeleteLoginImageDialog()
     {
@@ -657,6 +660,92 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             IsLoading = false;
             HasFailures = true;
         }
+    }
+
+    private async Task<StorageFile> WriteableBitmapToStorageFile(WriteableBitmap WB, FileFormat fileFormat)
+    {
+        string FileName = "YourFile.";
+        Guid BitmapEncoderGuid = BitmapEncoder.JpegEncoderId;
+        switch (fileFormat)
+        {
+            case FileFormat.Jpeg:
+                FileName += "jpeg";
+                BitmapEncoderGuid = BitmapEncoder.JpegEncoderId;
+                break;
+            case FileFormat.Png:
+                FileName += "png";
+                BitmapEncoderGuid = BitmapEncoder.PngEncoderId;
+                break;
+            case FileFormat.Bmp:
+                FileName += "bmp";
+                BitmapEncoderGuid = BitmapEncoder.BmpEncoderId;
+                break;
+            case FileFormat.Tiff:
+                FileName += "tiff";
+                BitmapEncoderGuid = BitmapEncoder.TiffEncoderId;
+                break;
+            case FileFormat.Gif:
+                FileName += "gif";
+                BitmapEncoderGuid = BitmapEncoder.GifEncoderId;
+                break;
+        }
+        var file = await Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileAsync(FileName, CreationCollisionOption.GenerateUniqueName);
+        using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+        {
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoderGuid, stream);
+            Stream pixelStream = WB.PixelBuffer.AsStream();
+            byte[] pixels = new byte[pixelStream.Length];
+            await pixelStream.ReadAsync(pixels, 0, pixels.Length);
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, (uint)WB.PixelWidth, (uint)WB.PixelHeight,
+                96.0,
+                96.0,
+                pixels);
+            await encoder.FlushAsync();
+        }
+        return file;
+    }
+    private enum FileFormat
+    {
+        Jpeg,
+        Png,
+        Bmp,
+        Tiff,
+        Gif
+    }
+
+    [RelayCommand]
+    public async void OnSaveLoginImage()
+    {
+        if (SelectedLoginImage is null)
+        {
+            return;
+        }
+
+        FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
+
+        var window = App.MainWindow;
+
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+
+        WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
+
+        savePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+        ;
+        savePicker.FileTypeChoices.Add("PNG files", new List<string>() { ".png" });
+        savePicker.SuggestedFileName = SelectedLoginImage.ImageName + ".png";
+
+        StorageFile storageFile = await savePicker.PickSaveFileAsync();
+
+        if (storageFile != null)
+        {
+            var writeableBitmap = SelectedLoginImage.ImageSource;
+
+            SoftwareBitmap outputBitmap = SoftwareBitmap.CreateCopyFromBuffer(writeableBitmap.PixelBuffer, BitmapPixelFormat.Bgra8, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight);
+
+            ImageBlobConverter.SaveSoftwareBitmapToFile(outputBitmap, storageFile);
+        }
+
+
     }
 
     private async void AddLoginImageCommand_Executed()

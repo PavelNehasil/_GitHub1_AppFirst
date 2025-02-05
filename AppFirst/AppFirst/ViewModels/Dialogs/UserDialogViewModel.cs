@@ -3,6 +3,7 @@ using AppFirst.Classes;
 using AppFirst.Models;
 using AppFirst.ViewModels.Pages;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 
 namespace AppFirst.ViewModels.Dialogs
@@ -57,7 +58,7 @@ namespace AppFirst.ViewModels.Dialogs
         private string _lastName = string.Empty;
 
         [ObservableProperty]
-        private BitmapImage _imageSource = null;
+        private WriteableBitmap _imageSource = null;
 
         [ObservableProperty]
         private string _errorInfoBarMessage = string.Empty;
@@ -118,7 +119,7 @@ namespace AppFirst.ViewModels.Dialogs
             var file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                var bitmapImage = new BitmapImage(new Uri(file.Path));
+                var bitmapImage =  await LoadImageFileToWriteableBitmap(file.Path);
                 var loginImage = new LoginImage();
                 loginImage.ImageName = file.Name;
                 loginImage.Description = file.Path;
@@ -136,6 +137,16 @@ namespace AppFirst.ViewModels.Dialogs
 
             }
 
+        }
+        private async Task<WriteableBitmap> LoadImageFileToWriteableBitmap(string filePath)
+        {
+            var file = await StorageFile.GetFileFromPathAsync(filePath);
+            using (var stream = await file.OpenAsync(FileAccessMode.Read))
+            {
+                var bitmapImage = new WriteableBitmap(1, 1);
+                await bitmapImage.SetSourceAsync(stream);
+                return bitmapImage;
+            }
         }
 
     }

@@ -13,7 +13,7 @@ namespace AppFirst.Models
         private string imageName;
         private string description;
         private byte[] image;
-        private BitmapImage imageSource;
+        private WriteableBitmap imageSource;
         private int countImages;
 
         [Key]
@@ -45,7 +45,7 @@ namespace AppFirst.Models
             set => SetProperty(ref image, value);
         }
 
-        public BitmapImage ImageSource
+        public WriteableBitmap ImageSource
         {
             get => imageSource;
             set => SetProperty(ref imageSource, value);

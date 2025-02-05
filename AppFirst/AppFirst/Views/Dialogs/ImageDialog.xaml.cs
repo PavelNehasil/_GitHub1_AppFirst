@@ -10,7 +10,7 @@ public sealed partial class ImageDialog : ContentDialog
         this.InitializeComponent();
     }
 
-    public void SetImage(string imageName, BitmapImage image, int width, int height)
+    public void SetImage(string imageName, WriteableBitmap image, int width, int height)
     {
         Title = imageName;
         ImageImage.Source = image;

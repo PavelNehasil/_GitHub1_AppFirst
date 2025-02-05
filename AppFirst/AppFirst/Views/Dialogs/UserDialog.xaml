@@ -40,19 +40,30 @@
             <StackPanel BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" BorderThickness="1">
                 <FlipView
                     x:Name="Gallery"
-                    Height="200"
-                    MaxWidth="200"
+                    Height="220"
+                    MaxWidth="220"
                     ItemsSource="{Binding TableLoginImages, Mode=OneWay}"
                     SelectedIndex="{Binding SelectedIndexLoginImage, Mode=TwoWay}">
                     <FlipView.ItemTemplate>
                         <DataTemplate x:DataType="local1:LoginImage">
                             <StackPanel>
-                                <InfoBadge
+                                <!--<InfoBadge
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
                                     Opacity="{x:Bind IsUsed, Mode=OneWay}"
-                                    Value="{x:Bind CountImages}" />
-                                <Image Source="{x:Bind ImageSource, Mode=OneTime}"/>
+                                    Value="{x:Bind CountImages, Mode=OneWay}" />-->
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    FontSize="9"
+                                    Text="{x:Bind ImageName, Mode=OneWay}" />
+                                <PersonPicture
+                                    x:Name="ImagePersonPicture"
+                                    Width="200"
+                                    Height="200"
+                                    Margin="5,5,5,5"
+                                    BadgeNumber="{x:Bind CountImages, Mode=OneWay}"
+                                    ProfilePicture="{x:Bind ImageSource, Mode=OneWay}" />
                             </StackPanel>
                         </DataTemplate>
                     </FlipView.ItemTemplate>

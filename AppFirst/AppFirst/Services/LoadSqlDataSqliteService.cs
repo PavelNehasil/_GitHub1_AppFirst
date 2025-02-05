@@ -34,16 +34,16 @@ namespace AppFirst.Services
                         while (await reader.ReadAsync())
                         {
                             byte[] imageBlob = reader.IsDBNull(8) ? null : (byte[])reader["Image"];
-                            var user = new User
+                            var user = new User()
                             {
                                 Id = reader.GetInt32(0),
                                 IdLoginImage = reader.GetInt32(1),
                                 UserName = reader.GetString(2),
-                                Password = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                Password = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
                                 IsAdmin = reader.GetBoolean(4),
-                                Email = reader.IsDBNull(5) ? null : reader.GetString(5),
-                                FirstName = reader.IsDBNull(6) ? null : reader.GetString(6),
-                                LastName = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                Email = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                                FirstName = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                                LastName = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
                                 ImageSource = ImageBlobConverter.ByteToBitmapAsync(imageBlob).Result
                             };
 

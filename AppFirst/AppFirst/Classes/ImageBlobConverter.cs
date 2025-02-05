@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace AppFirst.Classes;
@@ -73,7 +75,7 @@ static class ImageBlobConverter
         }
         return image;
     }
-    static public async Task<BitmapImage> ByteToBitmapAsync(byte[] value)
+    static public async Task<WriteableBitmap> ByteToBitmapAsync(byte[] value)
     {
         if (value == null || !(value is byte[]))
             return null;
@@ -84,7 +86,7 @@ static class ImageBlobConverter
                 writer.WriteBytes((byte[])value);
                 writer.StoreAsync().GetResults();
             }
-            var image = new BitmapImage();
+            var image = new WriteableBitmap(1,1);
             image.SetSource(ms);
             return image;
         }
@@ -148,4 +150,49 @@ static class ImageBlobConverter
 
     //    return buffer;
     //}
+
+    public static async void SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, StorageFile outputFile)
+    {
+        using (IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
+        {
+            // Create an encoder with the desired format
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+
+            // Set the software bitmap
+            encoder.SetSoftwareBitmap(softwareBitmap);
+
+            // Set additional encoding parameters, if needed
+            //encoder.BitmapTransform.ScaledWidth = 320;
+            //encoder.BitmapTransform.ScaledHeight = 240;
+            //encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees;
+            //encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+            encoder.IsThumbnailGenerated = true;
+
+            try
+            {
+                await encoder.FlushAsync();
+            }
+            catch (Exception err)
+            {
+                const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
+                switch (err.HResult)
+                {
+                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                        // If the encoder does not support writing a thumbnail, then try again
+                        // but disable thumbnail generation.
+                        encoder.IsThumbnailGenerated = false;
+                        break;
+                    default:
+                        throw;
+                }
+            }
+
+            if (encoder.IsThumbnailGenerated == false)
+            {
+                await encoder.FlushAsync();
+            }
+
+
+        }
+    }
 }

@@ -17,7 +17,7 @@ namespace AppFirst.Models
         private string email;
         private string firstName;
         private string lastName;
-        private BitmapImage imageSource;
+        private  WriteableBitmap imageSource;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -76,7 +76,7 @@ namespace AppFirst.Models
             set => SetProperty(ref lastName, value);
         }
 
-        public BitmapImage ImageSource
+        public WriteableBitmap ImageSource
         {
             get => imageSource;
             set => SetProperty(ref imageSource, value);
