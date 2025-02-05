@@ -114,7 +114,6 @@
     <None Remove="Database\Database1_log.ldf" />
     <None Remove="Images\SplashScreen.jpg" />
     <None Remove="Views\Data1Page.xaml" />
-    <None Remove="Views\Dialogs\ContentDialogExample.xaml" />
     <None Remove="Views\Dialogs\ImageDialog.xaml" />
     <None Remove="Views\Dialogs\LoginDialog.xaml" />
     <None Remove="Views\Dialogs\ProgressDialogEx.xaml" />

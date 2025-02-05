@@ -31,38 +31,32 @@ static class ImageBlobConverter
         return bytes;
     }
 
-    //public static async Task<byte[]> BitmapImageToBytesAsync(BitmapImage bitmapImage)
-    //{
-    //    byte[] bytes = null;
+    public static async Task<byte[]> WriteableBitmapToBytesAsync(WriteableBitmap bitmapImage)
+    {
+        byte[] bytes = null;
 
-    //    if (bitmapImage != null)
-    //    {
-    //        WriteableBitmap writeableBitmap = new WriteableBitmap(bitmapImage.PixelWidth, bitmapImage.PixelHeight);
-    //        using (var stream = await bitmapImage.GetStreamAsync())
-    //        {
-    //            await writeableBitmap.SetSourceAsync(stream);
-    //        }
+        if (bitmapImage != null)
+        {
+            using (var ms = new InMemoryRandomAccessStream())
+            {
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms); //JpegEncoderId
+                encoder.SetPixelData(
+                    BitmapPixelFormat.Bgra8,
+                    BitmapAlphaMode.Straight,
+                    (uint)bitmapImage.PixelWidth,
+                    (uint)bitmapImage.PixelHeight,
+                    96, 96,
+                    bitmapImage.PixelBuffer.ToArray()
+                );
 
-    //        using (var ms = new InMemoryRandomAccessStream())
-    //        {
-    //            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms);
-    //            encoder.SetPixelData(
-    //                BitmapPixelFormat.Bgra8,
-    //                BitmapAlphaMode.Straight,
-    //                (uint)writeableBitmap.PixelWidth,
-    //                (uint)writeableBitmap.PixelHeight,
-    //                96, 96,
-    //                writeableBitmap.PixelBuffer.ToArray()
-    //            );
+                await encoder.FlushAsync();
+                bytes = new byte[ms.Size];
+                await ms.ReadAsync(bytes.AsBuffer(), (uint)ms.Size, InputStreamOptions.None);
+            }
+        }
 
-    //            await encoder.FlushAsync();
-    //            bytes = new byte[ms.Size];
-    //            await ms.ReadAsync(bytes.AsBuffer(), (uint)ms.Size, InputStreamOptions.None);
-    //        }
-    //    }
-
-    //    return bytes;
-    //}
+        return bytes;
+    }
 
     public static async Task<BitmapImage> BytesToBitmapImage(byte[] bytes)
     {
@@ -75,7 +69,7 @@ static class ImageBlobConverter
         }
         return image;
     }
-    static public async Task<WriteableBitmap> ByteToBitmapAsync(byte[] value)
+    static public async Task<WriteableBitmap> ByteToWriteableBitmapAsync(byte[] value)
     {
         if (value == null || !(value is byte[]))
             return null;
@@ -153,46 +147,60 @@ static class ImageBlobConverter
 
     public static async void SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, StorageFile outputFile)
     {
-        using (IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
+        IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite);
+
+        // Create an encoder with the desired format
+        Guid bitmapEncoderGuid = BitmapEncoder.PngEncoderId;
+        switch (outputFile.FileType.ToLower())
         {
-            // Create an encoder with the desired format
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
-
-            // Set the software bitmap
-            encoder.SetSoftwareBitmap(softwareBitmap);
-
-            // Set additional encoding parameters, if needed
-            //encoder.BitmapTransform.ScaledWidth = 320;
-            //encoder.BitmapTransform.ScaledHeight = 240;
-            //encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees;
-            //encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
-            encoder.IsThumbnailGenerated = true;
-
-            try
-            {
-                await encoder.FlushAsync();
-            }
-            catch (Exception err)
-            {
-                const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
-                switch (err.HResult)
-                {
-                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
-                        // If the encoder does not support writing a thumbnail, then try again
-                        // but disable thumbnail generation.
-                        encoder.IsThumbnailGenerated = false;
-                        break;
-                    default:
-                        throw;
-                }
-            }
-
-            if (encoder.IsThumbnailGenerated == false)
-            {
-                await encoder.FlushAsync();
-            }
-
-
+            case ".jpg" or ".jpeg":
+                bitmapEncoderGuid = BitmapEncoder.JpegEncoderId;
+                break;
+            case ".png":
+                bitmapEncoderGuid = BitmapEncoder.PngEncoderId;
+                break;
+            case ".bmp":
+                bitmapEncoderGuid = BitmapEncoder.BmpEncoderId;
+                break;
         }
+        BitmapEncoder encoder = await BitmapEncoder.CreateAsync(bitmapEncoderGuid, stream);
+
+        // Set the software bitmap
+        encoder.SetSoftwareBitmap(softwareBitmap);
+
+        // Set additional encoding parameters, if needed
+        //encoder.BitmapTransform.ScaledWidth = 320;
+        //encoder.BitmapTransform.ScaledHeight = 240;
+        //encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees;
+        encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+        encoder.IsThumbnailGenerated = false;
+
+        await encoder.FlushAsync();
+
+        //try
+        //{
+        //    await encoder.FlushAsync();
+        //}
+        //catch (Exception err)
+        //{
+        //    const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
+        //    switch (err.HResult)
+        //    {
+        //        case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+        //            // If the encoder does not support writing a thumbnail, then try again
+        //            // but disable thumbnail generation.
+        //            encoder.IsThumbnailGenerated = false;
+        //            break;
+        //        default:
+        //            throw;
+        //    }
+        //}
+
+        //if (encoder.IsThumbnailGenerated == false)
+        //{
+        //    await encoder.FlushAsync();
+        //}
     }
+
+
 }

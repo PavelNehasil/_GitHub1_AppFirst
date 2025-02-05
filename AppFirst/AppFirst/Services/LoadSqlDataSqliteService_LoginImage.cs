@@ -37,7 +37,7 @@ namespace AppFirst.Services
                             Image = reader.IsDBNull(3) ? null : (byte[])reader["Image"],
                             CountImages = reader.IsDBNull(4) ? 0 : reader.GetInt32(4)
                         };
-                        loginImage.ImageSource = ImageBlobConverter.ByteToBitmapAsync(loginImage.Image).Result;
+                        loginImage.ImageSource = await ImageBlobConverter.ByteToWriteableBitmapAsync(loginImage.Image);
 
                         loginImages.Add(loginImage);
                     }

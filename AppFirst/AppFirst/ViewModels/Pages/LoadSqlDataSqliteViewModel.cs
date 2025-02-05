@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using AppFirst.Classes;
 using AppFirst.Models;
@@ -7,11 +6,9 @@ using AppFirst.Services;
 using AppFirst.Views.Dialogs;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using WinUIEx;
 
 namespace AppFirst.ViewModels.Pages;
@@ -480,13 +477,15 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             return;
         }
 
-        var dialog = new ContentDialog();
+        var dialog = new ContentDialogDeleteImage();
         dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
-        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
         dialog.Title = "Delete login image?";
-        dialog.Content = $"Do you want delete image Id({(SelectedLoginImage.Id)}) Name({SelectedLoginImage.ImageName}) from database?";
         dialog.PrimaryButtonText = "Delete";
         dialog.CloseButtonText = "Cancel";
+
+        dialog.SetLoginImage(SelectedLoginImage);
+
         ContentDialogResult result = await dialog.ShowAsync();
 
         if (result == ContentDialogResult.Primary)
@@ -662,56 +661,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         }
     }
 
-    private async Task<StorageFile> WriteableBitmapToStorageFile(WriteableBitmap WB, FileFormat fileFormat)
-    {
-        string FileName = "YourFile.";
-        Guid BitmapEncoderGuid = BitmapEncoder.JpegEncoderId;
-        switch (fileFormat)
-        {
-            case FileFormat.Jpeg:
-                FileName += "jpeg";
-                BitmapEncoderGuid = BitmapEncoder.JpegEncoderId;
-                break;
-            case FileFormat.Png:
-                FileName += "png";
-                BitmapEncoderGuid = BitmapEncoder.PngEncoderId;
-                break;
-            case FileFormat.Bmp:
-                FileName += "bmp";
-                BitmapEncoderGuid = BitmapEncoder.BmpEncoderId;
-                break;
-            case FileFormat.Tiff:
-                FileName += "tiff";
-                BitmapEncoderGuid = BitmapEncoder.TiffEncoderId;
-                break;
-            case FileFormat.Gif:
-                FileName += "gif";
-                BitmapEncoderGuid = BitmapEncoder.GifEncoderId;
-                break;
-        }
-        var file = await Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileAsync(FileName, CreationCollisionOption.GenerateUniqueName);
-        using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
-        {
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoderGuid, stream);
-            Stream pixelStream = WB.PixelBuffer.AsStream();
-            byte[] pixels = new byte[pixelStream.Length];
-            await pixelStream.ReadAsync(pixels, 0, pixels.Length);
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, (uint)WB.PixelWidth, (uint)WB.PixelHeight,
-                96.0,
-                96.0,
-                pixels);
-            await encoder.FlushAsync();
-        }
-        return file;
-    }
-    private enum FileFormat
-    {
-        Jpeg,
-        Png,
-        Bmp,
-        Tiff,
-        Gif
-    }
+
 
     [RelayCommand]
     public async void OnSaveLoginImage()
@@ -730,9 +680,12 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
         WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
 
         savePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-        ;
+
         savePicker.FileTypeChoices.Add("PNG files", new List<string>() { ".png" });
-        savePicker.SuggestedFileName = SelectedLoginImage.ImageName + ".png";
+        savePicker.FileTypeChoices.Add("JPG files", new List<string>() { ".jpg" });
+        savePicker.FileTypeChoices.Add("BMP files", new List<string>() { ".bmp" });
+
+        savePicker.SuggestedFileName = Path.GetFileNameWithoutExtension(SelectedLoginImage.ImageName);
 
         StorageFile storageFile = await savePicker.PickSaveFileAsync();
 
@@ -772,7 +725,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             loginImage.Image = ImageBlobConverter.ImageFilePathToBytes(file.Path);
             loginImage.ImageName = file.Name;
             loginImage.Description = file.Path;
-            loginImage.ImageSource = ImageBlobConverter.ByteToBitmapAsync(loginImage.Image).Result;
+            loginImage.ImageSource = await ImageBlobConverter.ByteToWriteableBitmapAsync(loginImage.Image);
             await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(loginImage);
             await OnReloadLoginImages();
             if (TableLoginImages.Count > 0)

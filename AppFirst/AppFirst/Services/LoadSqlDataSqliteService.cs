@@ -44,7 +44,7 @@ namespace AppFirst.Services
                                 Email = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
                                 FirstName = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
                                 LastName = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
-                                ImageSource = ImageBlobConverter.ByteToBitmapAsync(imageBlob).Result
+                                ImageSource = await ImageBlobConverter.ByteToWriteableBitmapAsync(imageBlob)
                             };
 
                             users.Add(user);

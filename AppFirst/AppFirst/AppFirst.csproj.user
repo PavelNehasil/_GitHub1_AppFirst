@@ -22,9 +22,6 @@
     <None Update="Themes\ThemeResources.xaml">
       <SubType>Designer</SubType>
     </None>
-    <Compile Update="Views\Dialogs\ContentDialogExample.xaml">
-      <SubType>Designer</SubType>
-    </Compile>
     <Page Update="Views\Dialogs\LoginDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
