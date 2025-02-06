@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using AppFirst.Classes;
 using AppFirst.Models;
@@ -9,6 +10,7 @@ using Microsoft.UI.Dispatching;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using WinUIEx;
 
 namespace AppFirst.ViewModels.Pages;
@@ -731,6 +733,44 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
             if (TableLoginImages.Count > 0)
                 SelectedLoginImage = TableLoginImages[TableLoginImages.Count - 1];
         }
+    }
+
+    [RelayCommand]
+    private async void OnAddLoginImageFromImagesAcount()
+    {
+        //var bitmapImage = new BitmapImage(new Uri("ms-appx:///Images/Account/001.png"));
+
+        List<string> imageList = new List<string>() {
+        "ms-appx:///Images/Account/001.png",
+        "ms-appx:///Images/Account/002.png",
+        "ms-appx:///Images/Account/003.png",
+        "ms-appx:///Images/Account/004.png",
+        "ms-appx:///Images/Account/005.png",
+        "ms-appx:///Images/Account/006.png",
+        "ms-appx:///Images/Account/007.png",
+        "ms-appx:///Images/Account/008.png"};
+
+        for (int i = 0; i < imageList.Count; i++)
+        {
+
+            StorageFile storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(imageList[i]));
+
+            RandomAccessStreamReference stream = RandomAccessStreamReference.CreateFromFile(storageFile);
+            var streamContent = await stream.OpenReadAsync();
+            byte[] buffer = new byte[streamContent.Size];
+            await streamContent.ReadAsync(buffer.AsBuffer(), (uint)streamContent.Size, InputStreamOptions.None);
+
+            var loginImage = new LoginImage();
+            loginImage.Image = ImageBlobConverter.ImageFilePathToBytes(storageFile.Path);
+            loginImage.ImageName = Path.GetFileName(storageFile.Path);
+            loginImage.Description = storageFile.Path;
+            loginImage.ImageSource = await ImageBlobConverter.ByteToWriteableBitmapAsync(loginImage.Image);
+            await _loadSqlDataSqliteService_LoginImage.InsertLoginImageAsync(loginImage);
+        }
+
+        await OnReloadLoginImages();
+        if (TableLoginImages.Count > 0)
+            SelectedLoginImage = TableLoginImages[TableLoginImages.Count - 1];
     }
 
     public void DeleteLoginImageCommand_Executed(int id)

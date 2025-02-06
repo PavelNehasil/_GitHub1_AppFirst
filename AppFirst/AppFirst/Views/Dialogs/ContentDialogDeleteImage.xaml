@@ -5,13 +5,20 @@
     Title="Delete image?"
     CloseButtonText="Cancel"
     DefaultButton="Close"
-    PrimaryButtonText="Delete"
-    PrimaryButtonClick="DeleteButtonClick">
+    PrimaryButtonClick="DeleteButtonClick"
+    PrimaryButtonText="Delete">
 
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <!--  Content body  -->
-        <TextBlock x:Name="TextContentTBl" Margin="10,10,10,10" TextWrapping="Wrap" />
-        <Image x:Name="DeletedImageImg" Margin="10,10,10,10" Width="200" Height="200" />
+        <TextBlock
+            x:Name="TextContentTBl"
+            Margin="10,10,10,10"
+            TextWrapping="Wrap" />
+        <Image
+            x:Name="DeletedImageImg"
+            Width="200"
+            Height="200"
+            Margin="10,10,10,10" />
     </StackPanel>
 
 </ContentDialog>

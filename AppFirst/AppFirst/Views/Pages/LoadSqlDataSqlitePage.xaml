@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:AppFirst.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:AppFirst"
     xmlns:local1="using:AppFirst.Models"
     xmlns:local2="using:AppFirst.Views.Pages"
@@ -575,6 +574,17 @@
                         SelectionMode="Single">
                         <ListView.ContextFlyout>
                             <MenuFlyout x:Name="ContextMenuLoginImage">
+
+                                <MenuFlyoutItem
+                                    x:Uid="AddLoginImage_ImageAccount"
+                                    Command="{x:Bind ViewModel.AddLoginImageFromImagesAcountCommand}"
+                                    CommandParameter="{x:Bind}"
+                                    Text="Add local images">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE748;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
                                 <MenuFlyoutItem
                                     x:Uid="AddLoginImage"
                                     Command="{x:Bind ViewModel.AddLoginImageCommand}"

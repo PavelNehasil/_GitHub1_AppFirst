@@ -11,7 +11,7 @@
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
     <TrimMode>partial</TrimMode>
     <ImplicitUsings>true</ImplicitUsings>
     <LangVersion>Latest</LangVersion>
@@ -107,11 +107,21 @@
     <Content Remove="Assets\cloud-offline-outline.png" />
     <Content Remove="Assets\NavViewMenu\AppDataCopilot.json" />
     <Content Remove="Assets\NavViewMenu\AppDataSchema.json" />
+    <Content Remove="Assets\people-outline.png" />
+    <Content Remove="Assets\people-sharp.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Database\Database1.db" />
     <None Remove="Database\Database1.mdf" />
     <None Remove="Database\Database1_log.ldf" />
+    <None Remove="Images\Account\001.png" />
+    <None Remove="Images\Account\002.png" />
+    <None Remove="Images\Account\003.png" />
+    <None Remove="Images\Account\004.png" />
+    <None Remove="Images\Account\005.png" />
+    <None Remove="Images\Account\006.png" />
+    <None Remove="Images\Account\007.png" />
+    <None Remove="Images\Account\008.png" />
     <None Remove="Images\SplashScreen.jpg" />
     <None Remove="Views\Data1Page.xaml" />
     <None Remove="Views\Dialogs\ImageDialog.xaml" />
@@ -132,6 +142,30 @@
     <Content Include="Database\Database1_log.ldf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Account\001.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Account\002.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Account\003.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Account\004.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Account\005.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Account\006.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Account\007.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Account\008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\SplashScreen.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +184,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <!-- 
   Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 

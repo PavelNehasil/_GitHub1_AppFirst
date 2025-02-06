@@ -9,7 +9,7 @@ public class CountImagesToImagePathConverter : IValueConverter
     {
         if (value is int countImages)
         {
-            var imagePath = (countImages > 0) ? "/Assets/cloud-download-outline.png" : "/Assets/cloud-offline-outline.png";
+            var imagePath = (countImages > 0) ? "/Assets/people-sharp.png" : "/Assets/people-outline.png";
             var bitmapImage = new BitmapImage(new Uri("ms-appx://" + imagePath))
             {
                 DecodePixelHeight = 50
@@ -17,7 +17,7 @@ public class CountImagesToImagePathConverter : IValueConverter
             return bitmapImage;
         }
 
-        return new BitmapImage(new Uri("ms-appx:///Assets/cloud-download-outline.png"))
+        return new BitmapImage(new Uri("ms-appx:///Assets/people-outline.png"))
         {
             DecodePixelHeight = 50
         };
@@ -26,7 +26,7 @@ public class CountImagesToImagePathConverter : IValueConverter
     {
         if (value is BitmapImage bitmapImage)
         {
-            if (!bitmapImage.UriSource.AbsoluteUri.Contains("offline"))
+            if (!bitmapImage.UriSource.AbsoluteUri.Contains("outline"))
             {
                 return 1;
             }
