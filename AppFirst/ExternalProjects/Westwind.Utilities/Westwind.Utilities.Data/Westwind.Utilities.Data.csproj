@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net462;net8.0;net9.0;net6.0;netstandard2.0</TargetFrameworks>
+		<Version>5.0.11</Version>
+		<Authors>Rick Strahl</Authors>
+		<RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+		<Language>en-US</Language>
+		<AssemblyName>Westwind.Utilities.Data</AssemblyName>
+		<AssemblyTitle>Westwind.Utilities.Data</AssemblyTitle>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<PackageId>Westwind.Utilities.Data</PackageId>
+		<RootNamespace>Westwind.Utilities.Data</RootNamespace>
+		<Title>West Wind Utilities Data</Title>
+		<Description>.NET utility library that includes Application Configuration, lightweight ADO.NET Data Access Layer, logging, utility classes include: StringUtils, ReflectionUtils, FileUtils, DataUtils, SerializationUtils, TimeUtils, SecurityUtils and XmlUtils. These classes are useful in any kind of .NET project.</Description>
+		<Description>Data access support library for Westwind.Utilities that provides a small lightweight data access providerand and a host of data utilities.</Description>
+		<Summary>Data access support library for Westwind.Utilities.</Summary>
+		<PackageCopyright>Rick Strahl, West Wind Technologies 2007-2024</PackageCopyright>
+		<PackageTags>Westwind DataAccess DataUtils DAL Sql ADO.NET</PackageTags>
+		<PackageReleaseNotes></PackageReleaseNotes>
+
+		<PackageProjectUrl>http://github.com/rickstrahl/westwind.utilities</PackageProjectUrl>
+
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
+
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Copyright>Rick Strahl, West Wind Technologies, 2010-2024</Copyright>
+		<RepositoryType>Github</RepositoryType>
+		<Company>West Wind Technologies</Company>
+		<RepositoryUrl>https://github.com/RickStrahl/Westwind.Utilities</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<SqlQueryToolsConnectionString />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<DefineConstants>TRACE;DEBUG;</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<DebugType>embedded</DebugType>
+		<NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<DefineConstants>RELEASE</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' != 'net462'">
+		<DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
+		<DefineConstants>NETFULL</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
+		<DebugType>embedded</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+		<Reference Include="mscorlib" />
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Configuration" />	
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="icon.png" Pack="true" PackagePath="" />
+		<None Include="LICENSE.MD" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Westwind.Utilities\Westwind.Utilities.csproj" />
+	</ItemGroup>
+</Project>

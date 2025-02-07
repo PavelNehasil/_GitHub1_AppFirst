@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>U:\_Repozitory\C#\_GitHub1_AppFirst\AppFirst\AppFirst\Properties\PublishProfiles\win-arm64.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Themes\Converters.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Themes\Fonts.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Themes\Styles.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Themes\ThemeResources.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="Views\Dialogs\LoginDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Dialogs\ProgressDialogEx.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Dialogs\SqlConnectionStringDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Dialogs\ImageDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <None Update="Views\HomeLandingPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="Views\Pages\LoadSqlDataGridPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SplashScreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\LoadSqlDataPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Sample1Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <None Update="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Views\Settings\AboutUsSettingPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Views\Settings\AppUpdateSettingPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Views\Settings\GeneralSettingPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Views\Settings\ThemeSettingPage.xaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+</Project>
