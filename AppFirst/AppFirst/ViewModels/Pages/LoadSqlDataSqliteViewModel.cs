@@ -132,7 +132,7 @@ public partial class LoadSqlDataSqliteViewModel : ObservableObject
 
         try
         {
-            await _loadSqlDataSqliteService.LoadSqlDataNowAsync(TableUsersAll);
+            _loadSqlDataSqliteService.LoadSqlDataNowAsync(TableUsersAll);
 
             DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 

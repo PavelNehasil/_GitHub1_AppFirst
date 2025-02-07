@@ -31,7 +31,7 @@ namespace AppFirst.Services
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             byte[] imageBlob = reader.IsDBNull(8) ? null : (byte[])reader["Image"];
                             var user = new User()
