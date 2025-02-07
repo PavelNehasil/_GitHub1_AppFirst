@@ -1,6 +1,0 @@
-﻿CREATE TABLE LoginUsers (
-	IdUser INTEGER NOT NULL,
-	IdLoginType INTEGER NOT NULL,
-	Date DateTime NOT NULL,
-	CONSTRAINT LoginUsers_PK PRIMARY KEY (IdUser,Date)
-);
