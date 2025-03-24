@@ -1,0 +1,7 @@
+<> .github/workflows/push-to-multiple-remotes.yml
+
+name: Push to Multiple remotes
+
+on:
+  push:
+    branches:
